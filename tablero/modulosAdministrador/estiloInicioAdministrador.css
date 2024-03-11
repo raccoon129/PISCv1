@@ -1,0 +1,42 @@
+body {
+    background-color: rgba(255, 255, 255, 0);
+    /* Cambia el color de fondo a transparente*/
+}
+
+/* Estilos para las tarjetas */
+.card {
+    margin-top: 20px;
+    /* Espacio superior para cada tarjeta */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra para las tarjetas */
+    border-radius: 10px;
+    /* Bordes redondeados */
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    /* Color de fondo para el encabezado de la tarjeta */
+    border-bottom: 0;
+    /* Sin borde inferior */
+    font-weight: bold;
+    /* Fuente en negrita para el título de la tarjeta */
+    border-top-left-radius: 10px;
+    /* Bordes redondeados solo en la parte superior izquierda */
+    border-top-right-radius: 10px;
+    /* Bordes redondeados solo en la parte superior derecha */
+}
+
+.card-body {
+    background-color: #ffffff;
+    /* Fondo blanco para el cuerpo de la tarjeta */
+}
+
+/* Estilos para los iconos */
+.card-icon {
+    font-size: 1.5rem;
+    /* Tamaño del icono */
+    vertical-align: middle;
+    /* Alineación vertical con el texto */
+    margin-right: .5rem;
+    /* Espaciado a la derecha del icono */
+}

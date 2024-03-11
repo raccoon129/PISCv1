@@ -1,0 +1,182 @@
+/* Estilos generales */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s;
+
+}
+
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed; 
+    width: 100%; 
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    
+    /*position: relative;*/
+}
+
+.encabezado .user-name {
+    margin-left: auto;
+    margin-left: 1px;
+}
+
+.encabezado button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #224ba6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.encabezado button:hover {
+    background-color: #224ba6;
+}
+
+/* Barra lateral */
+.barra-lateral {
+    width: 200px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #4578e5 0%, #283e5b 100%);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+/* Menú de navegación */
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-top: 65px; /* espacio para el logo o encabezado de la barra lateral */
+}
+
+.menu li a {
+    display: block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.menu li a:hover, .menu li a:focus {
+    background-color: #4578e5;
+    border-left: 10px solid #f4f4f4;
+}
+
+/* Contenido principal */
+.contenido-principal {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+/* Pie de página */
+.pie-pagina {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 200px);
+    padding: 10px;
+    left: 200px; /* se ajusta al ancho de la barra lateral */
+    z-index: 500;
+}
+
+
+/* Transiciones suaves */
+.barra-lateral, .contenido-principal, .pie-pagina, body {
+    transition: all 0.3s ease;
+}
+
+/* Logo en el encabezado */
+.contenedor-logo {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    padding: 2px; /* Ajusta el espaciado interno del contenedor */
+    flex-grow: 1;
+}
+
+.contenedor-logo img {
+    max-width: 80px; /* Ajusta el tamaño máximo del logo */
+    height: auto;
+}
+
+.logo {
+    max-width: 100px; /* o tu tamaño preferido */
+    height: auto;
+}
+
+/* Estilos para el avatar */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px; /* Espacio entre el avatar y el botón */
+}
+/* Ajustes al encabezado */
+
+
+
+/* Controles del usuario incluyendo avatar y botón */
+.controles-usuario {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos para el avatar */
+
+
+/* Nombre de usuario */
+.user-name {
+    margin: 0 auto; /* Centra el nombre de usuario entre el logo y los controles de usuario */
+}
+
+
+/* estilos para la rueda esa de carga */
+
+.loader {
+    border: 5px solid #ffffff;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s ease-in-out infinite;
+    align-items: center;
+}
+
+/* Y CON ESTO YA POR FIN DA VUELTAS WOOOOOOOOOOOOOOOOOOOOOO */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-360deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/*Cuando se le da click al elemento */
+.menu li a.seleccionado {
+    background-color: #4578e5;
+    border-left: 10px solid #f4f4f4;
+}
+

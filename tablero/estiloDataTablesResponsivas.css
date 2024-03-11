@@ -1,0 +1,12 @@
+        /* Estilos para las celdas de la tabla */
+        #tablaBienes td {
+            word-wrap: break-word;
+            word-break: break-all;
+            max-width: 140px;
+            font-size: 14px;
+        }
+
+        /* para asegurar que la tabla se desborde de manera controlada */
+        .tabla-responsiva {
+            overflow-x: auto;
+        }

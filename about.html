@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de - PISC</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .container.show {
+            opacity: 1;
+        }
+
+        img {
+            width: 80%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h2,
+        h5,
+        h6 {
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="img/blancoGrande.png" alt="Imagen" />
+        <h2>PISC - Préstamos ISC versión 1.1.1 Marzo 2024</h2>
+        <h6>Esta plataforma web ha sido desarrollada con tecnologías PHP, CSS, MySQL, JavaScript, JQuery, AJAX,
+            Bootstrap 4, SweetAlert, FPDF y DataTables.</h6>
+        <h5>Ingeniería en Sistemas Computacionales - ITESHU</h5>
+        <input type="hidden" value="Desarrollado por: Emanuel Muñoz Santana 21021475">
+        <a href="/resources/ManualUsuarioPISC.pdf" class="btn btn-primary mt-2">Leer documentación</a>
+        <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#registroCambiosModal">Ver
+            registro de cambios</button>
+        <a href="index.php" class="btn btn-secondary mt-2">Regresar al login</a>
+    </div>
+    <!-- Ventana modal para registro de cambios -->
+    <div class="modal fade" id="registroCambiosModal" tabindex="-1" role="dialog"
+        aria-labelledby="registroCambiosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroCambiosModalLabel">Registro de Cambios</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>v0.9 - Funcionalidades definidas para cuestiones de desarrollo.</p>
+                    <p>v1.0 - Primera versión terminada.</p>
+                    <p>v1.01 - Plataforma finalizada. Se añadieron nuevos cambios en cuanto a la funcionalidad del dashboard para mejorar su funcionamiento (V1.0). Se integró un combo en el módulo "Nuevo préstamo" para usuarios Prestamistas, facilitando la selección de carreras establecidas.</p>
+                    <p>v1.1.1 (Actual) - Se incorporó funcionalidades de seguridad para contraseñas. Estas se cifrarán desde la instalación, y se integraron políticas de seguridad en el módulo "Administrador de usuarios" para usuarios Administradores, evitando que se presenten las contraseñas en texto plano.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.10.32/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.container').classList.add('show');
+        });
+    </script>
+</body>
+
+</html>
