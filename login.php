@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db.php'; 
 
 // Verificar si el usuario ya ha iniciado sesión
 if (isset($_SESSION['username']) && isset($_SESSION['rol'])) {
@@ -11,8 +12,19 @@ if (isset($_SESSION['username']) && isset($_SESSION['rol'])) {
         header("Location: tablero/dashboardPrestamista.php");
         exit();
     }
+} else {
+    // Verificar si existen datos en la tabla usuario
+    $sql = "SELECT ID FROM usuario";
+    $result = mysqli_query($conexion, $sql);
+
+    // Si no existen registros, redirigir a index.php
+    if (mysqli_num_rows($result) == 0) {
+        header("Location: index.php");
+        exit();
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

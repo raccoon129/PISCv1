@@ -61,7 +61,6 @@ $result = $conexion->query($sql);
                         <th>Ubicación</th>
                         <th>Estatus (Inventario)</th>
                         <th>Estatus (Bien)</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,9 +77,6 @@ $result = $conexion->query($sql);
                         <td>" . $row["Ubicacion"] . "</td>
                         <td>" . $row["Estado"] . "</td>
                         <td>" . $row["EstadoBien"] . "</td>
-                        <td>
-                            <button class='btn btn-danger btn-sm' onclick='confirmDelete(" . $row["InventarioID"] . ")'>Eliminar</button>
-                        </td>
                       </tr>";
                         }
                     } else {

@@ -47,12 +47,13 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                         if ($stmt = $conexion->prepare($revisarUsuarioSQL)) {
                             $stmt->bind_param("s", $username);
-                            $strmt->is_execute();
+                            $stmt->execute();
                             $stmt->store_result();
 
                             if ($stmt->num_rows > 0) {
                                 echo "<div class='alert alert-danger'>El nombre de usuario ya existe.</div>";
                             } else {
+                                $stmt->close(); // Cierra el statement antes de preparar uno nuevo.
 
                                 // Hashear la contraseña antes de guardarla en la base de datos
                                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -71,14 +72,16 @@ if ($result && mysqli_num_rows($result) > 0) {
                                     } else {
                                         echo "<div class='alert alert-danger'>Error al crear el administrador: " . $stmt->error . "</div>";
                                     }
+                                    $stmt->close(); // cerrar el statement aquí.
+                                } else {
+                                    echo "<div class='alert alert-danger'>Error al preparar la consulta: " . $conexion->error . "</div>";
                                 }
                             }
-
-                            $stmt->close();
                         } else {
-                            echo "<div class='alert alert-danger'>Error al preparar la consulta: " . $conexion->error . "</div>";
+                            echo "<div class='alert alert-danger'>Error al preparar la consulta de revisión: " . $conexion->error . "</div>";
                         }
                     }
+
                     ?>
                     <form method="POST" id="formCrearUsuario">
                         <div class="form-group">

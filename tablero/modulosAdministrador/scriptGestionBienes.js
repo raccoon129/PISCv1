@@ -5,7 +5,7 @@ function abrirEditarBien() {
 
 function abrirFormularioNuevoBien() {
     var url = 'gestionBienesInsertarBien.php';
-    window.open(url, "Nuevo Bien", "width=400,height=800");
+    window.open(url, "Nuevo Bien", "width=1100,height=600");
 }
 
 function abrirExportarDatosTabla() {
