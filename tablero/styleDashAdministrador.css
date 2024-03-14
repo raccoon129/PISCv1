@@ -40,7 +40,7 @@ body, html {
 }
 
 .encabezado button:hover {
-    background-color: #224ba6;
+    background-color: #0492bd;
 }
 
 /* Barra lateral */
@@ -73,7 +73,7 @@ body, html {
 }
 
 .menu li a:hover, .menu li a:focus {
-    background-color: #4578e5;
+    background-color: #5d8aeb;
     border-left: 10px solid #f4f4f4;
 }
 

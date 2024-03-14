@@ -81,8 +81,7 @@ switch ($accion) {
                 $stmt->bind_param("sssss", $username, $hashedPassword, $rol, $nombrecompleto, $fechacreacion);
         
                 if ($stmt->execute()) {
-                    echo "Usuario creado exitosamente";
-                } else {
+                    alerta("Usuario creado exitosamente");
                     echo "Error al crear el usuario. Error $stmt->error";
                 }
             }

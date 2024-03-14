@@ -59,12 +59,12 @@ if ($fila = $resultado->fetch_assoc()) {
                     </div>
 
                     <div class="form-group">
-                        <label for="entrega">Nombre completo de la persona que entrega el bien</label>
+                        <label for="entrega">Nombre completo del prestamista que entrega los bienes:</label>
                         <input type="text" class="form-control" id="entrega" name="entrega" value="<?php echo htmlspecialchars($nombreCompletoEntrega); ?>" readonly>
                     </div>
                     <!-- Tarjeta para visualizar los bienes agregados -->
                     <div class="card mt-4">
-                        <div class="card-header">Bienes a Prestar</div>
+                        <div class="card-header">Listado de bienes a prestar</div>
                         <div class="table-responsive"> <!-- Envuelve tu tabla con .table-responsive -->
                             <table class="table" id="tablaBienes">
                                 <thead>
@@ -91,44 +91,46 @@ if ($fila = $resultado->fetch_assoc()) {
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="carrera">Carrera (Deudor)</label>
+                        <label for="carrera">Carrera del deudor:</label>
                         <select class="form-control" id="carrera" name="carrera" required>
-                            <option value="IngSistemasComputacionales">Ing Sistemas Computacionales</option>
-                            <option value="IngMecatronica">Ing Mecatrónica</option>
-                            <option value="IngEnergiasRenovables">Ing en Energías Renovables</option>
-                            <option value="IngIndustrial">Ing Industrial</option>
-                            <option value="IngAdministracion">Ing en Administración</option>
-                            <option value="IngInnovacionAgricolaSustentable">Ing en Innovación Agrícola Sustentable</option>
-                            <option value="IngGestionEmpresarial">Ing en Gestión Empresarial</option>
+                            <option value="Ing Sistemas Computacionales">Ing Sistemas Computacionales</option>
+                            <option value="Ing Mecatronica">Ing Mecatrónica</option>
+                            <option value="Ing Energias Renovables">Ing en Energías Renovables</option>
+                            <option value="Ing Industrial">Ing Industrial</option>
+                            <option value="Ing Administracion">Ing en Administración</option>
+                            <option value="Ing Innovacion Agricola Sustentable">Ing en Innovación Agrícola Sustentable</option>
+                            <option value="Ing GestionEmpresarial">Ing en Gestión Empresarial</option>
                             <option value="Arquitectura">Arquitectura</option>
                             <option value="Gastronomia">Gastronomía</option>
+                            <option value="No aplica">No aplica</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="rolDeudor">Rol del Deudor</label>
+                        <label for="rolDeudor">Rol del Deudor:</label>
                         <select class="form-control" id="rolDeudor" name="rolDeudor" required>
                             <option value="Docente">Docente</option>
                             <option value="Alumno">Alumno</option>
-                            <option value="Externo">Administrativo</option>
+                            <option value="Administrativo">Administrativo</option>
                             <option value="Externo">Externo</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="fechaSolicitud">Fecha de Solicitud</label>
+                        <label for="fechaSolicitud">Fecha de Solicitud:</label>
                         <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud" required value="<?php echo $fechaHoy; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="fechaDevolucionPrevista">Fecha de Devolución prevista</label>
+                        <label for="fechaDevolucionPrevista">Fecha de Devolución prevista:</label>
                         <input type="date" class="form-control" id="fechaDevolucionPrevista" name="fechaDevolucionPrevista" required value="<?php echo $fechaDevolucion; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="nombreDeudor">Nombre del Deudor</label>
+                        <label for="nombreDeudor">Nombre del Deudor:</label>
                         <input type="text" class="form-control" id="nombreDeudor" name="nombreDeudor" required>
                     </div>
+                    <!-- Poner placeholder-->
                     <div class="form-group">
-                        <label for="descripcionBien">Descripción del Bien</label>
-                        <input type="text" class="form-control" id="descripcionBien" name="descripcionBien">
+                        <label for="descripcionBien">Descripción del Bien:</label>
+                        <input type="text" class="form-control" id="descripcionBien" name="descripcionBien" placeholder="Escribe la descripción del bien y selecciona un resultado listado.">
                         <!-- Botón para agregar bien al listado -->
                         <button type="button" id="agregarBien" class="btn btn-info mt-2">Agregar Bien</button>
                         <div id="listaBienes"></div> <!-- Contenedor para mostrar resultados de búsqueda dinámica -->
@@ -138,9 +140,9 @@ if ($fila = $resultado->fetch_assoc()) {
             <!-- Observaciones fuera de las columnas -->
             <div class="form-group">
                 <label>Observaciones:</label>
-                <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                <textarea class="form-control" id="observaciones" name="observaciones" rows="3" cols="50"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+            <button id="btnRegistrarPrestamo" type="submit" class="btn btn-primary">Registrar Préstamo</button>
         </form>
     </div>
     <br>
@@ -149,6 +151,7 @@ if ($fila = $resultado->fetch_assoc()) {
 
     <!-- Opcional: enlace a Bootstrap JS y Popper.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </body>
 
 </html>

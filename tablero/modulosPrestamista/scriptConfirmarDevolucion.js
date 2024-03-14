@@ -1,7 +1,8 @@
-
 $(document).ready(function () {
     $('#btnConfirmarDevolucion').click(function () {
-        var numeroVale = $('#numeroVale').val(); // Asegúrate de obtener el número de vale correctamente
+        var numeroVale = $('#numeroVale').val();
+        var personaRecibe = $('#usuarioConfirmaDevolucion').val().replace(/ /g, "_"); // Reemplazar espacios por guiones bajos
+
         Swal.fire({
             title: 'Atención',
             text: "Confirma que los bienes han sido devueltos en un estado especificado y que el préstamo se dará por finalizado. La acción no se puede revertir.",
@@ -12,9 +13,10 @@ $(document).ready(function () {
             confirmButtonText: 'Correcto'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Crear un formulario y enviarlo
+                // Crear un formulario y enviarlo, incluyendo el nombre completo del usuario reemplazado con guiones bajos.
                 var form = $('<form action="actualizacionConfirmarDevolucion.php" method="post">' +
                     '<input type="hidden" name="numeroVale" value="' + numeroVale + '">' +
+                    '<input type="hidden" name="usuarioConfirmaDevolucion" value="' + personaRecibe + '">' +
                     '</form>');
                 $('body').append(form);
                 form.submit();
@@ -22,20 +24,4 @@ $(document).ready(function () {
         });
     });
 });
-/*   $('#btnConfirmarDevolucion').click(function() {
-       var numeroVale = $('#numeroVale').val();
-       if (numeroVale === undefined || numeroVale === '') {
-           alert('El número de vale no está definido o es vacío.');
-           return; // Detener la ejecución si no hay un número de vale válido
-       }
 
-       var confirmar = confirm("Confirma que los bienes han sido devueltos en un estado especificado y que el préstamo se dará por finalizado. La acción no se puede revertir.");
-       if (confirmar) {
-           var form = $('<form action="actualizacionConfirmarDevolucion.php" method="post">' +
-               '<input type="hidden" name="numeroVale" value="' + numeroVale + '">' +
-               '</form>');
-           $('body').append(form);
-           form.submit();
-       }
-   });
-   */

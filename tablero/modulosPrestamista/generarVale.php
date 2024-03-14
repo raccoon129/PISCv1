@@ -9,6 +9,15 @@ function recortarTexto($texto) {
     }
 }
 
+function recortarTexto10($texto) {
+    if (strlen($texto) > 10) {
+        return substr($texto, 0, 10) . "...";
+    } else {
+        return $texto;
+    }
+}
+
+
 require '../../vendor/autoload.php'; // Ajusta la ruta para subir dos niveles y luego acceder a vendor
 
 require '../../db.php';
@@ -36,7 +45,7 @@ if (is_null($valeID)) {
 $stmt = $conexion->prepare("
     SELECT v.NumeroVale, v.FechaHoraPrestamo, v.Deudor_ID, d.Nombre AS Nombre_Deudor, 
     v.CarreraRecibe AS Procedencia, v.FechaDevolucionPrevista AS FechaDevolucion, 
-    v.PersonaEntrega, u.nombrecompleto AS Nombre_Usuario_Entrega, v.observaciones
+    v.PersonaEntrega, u.nombrecompleto AS Nombre_Usuario_Entrega, v.observaciones, v.PersonaRecibe 
     FROM vale v
     LEFT JOIN deudor d ON v.Deudor_ID = d.ID
     LEFT JOIN usuario u ON v.PersonaEntrega = u.ID
@@ -59,6 +68,7 @@ if ($fila = $resultado->fetch_assoc()) {
     $fechaSolicitud = $fechaHoraPrestamo->format('Y-m-d'); // Formatear para mostrar solo la fecha
     $fechaDevolucion = new DateTime($fila['FechaDevolucion']);
     $fechaDevolucionPrevista = $fechaDevolucion->format('Y-m-d');
+    $nombreRecibe = $fila['PersonaRecibe'];
 } else {
     die('No se encontró el vale con el ID proporcionado.');
 }
@@ -118,7 +128,9 @@ $pdf->Text(155, 42, utf8_decode($fechaSolicitud), 'LR', 1, 'L');
 $pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
 $pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
 $pdf->Text(20, 42, utf8_decode(recortarTexto($carrera)), 'LR', 1, 'L');
-$pdf->Text(55, 57, utf8_decode('Abundio Martínez'), 'LR', 1, 'L');
+
+//Recibi del laboratorio "tal"
+$pdf->Text(49, 57, utf8_decode('Abundio Martínez'), 'LR', 1, 'L');
 
 // Recorriendo la coleccion de Bienes(solo la descripcion) prestados
 $ejeYPrestados = 67; // Posición inicial en Y para lo que se escribirá
@@ -131,12 +143,12 @@ foreach ($bienesData as $index => $bien) {
 // Recorriendo la coleccion de bienesID/NoInventario
 $ejeYPrestados = 67;
 foreach ($bienesData as $index => $bien) {
-    $line = utf8_decode(recortarTexto($bien['Bien_ID']));
+    $line = utf8_decode(recortarTexto10($bien['Bien_ID']));
     $pdf->Text(136, $ejeYPrestados, $line);
     $ejeYPrestados += 6; // Ajuste para la siguiente línea
 }
 
-// colocando cantidad (solo uno por integridad)
+// colocando cantidad (solo uno por integridad), todos los bienes tienen distinto no inventario
 $ejeYPrestados = 67;
 foreach ($bienesData as $index => $bien) {
     $line = "1";
@@ -146,9 +158,13 @@ foreach ($bienesData as $index => $bien) {
 
 //Aca terminan los campos de lo que se presta
 $pdf->Text(40, 99, utf8_decode($observaciones), 'LR', 1, 'L');
-$pdf->Text(18, 133, utf8_decode(recortarTexto($nombreDeudor)), 'LR', 1, 'L');
-$pdf->Text(58, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
+$pdf->Text(17, 133, utf8_decode(recortarTexto($nombreDeudor)), 'LR', 1, 'L');
+$pdf->Text(57, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
 
+//Acá la persona que recibe los bienes. Solo aparece cuando ya se han devuelto.
+$pdf->Text(99, 133, utf8_decode(recortarTexto($nombreRecibe)), 'LR', 1, 'L');
+// La misma persona que se le prestan los bienes, debe entregarlos.
+$pdf->Text(140, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
 $pdf->Output('I', 'valeGenerado.pdf'); // Cambiar 'D' por 'I' para abrir el PDF en el navegador
 
 ?>

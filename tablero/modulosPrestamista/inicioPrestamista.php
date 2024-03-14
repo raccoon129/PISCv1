@@ -8,7 +8,8 @@ verificarAcceso(['Prestamista']);
 
 $totalPrestamosQuery = "SELECT COUNT(*) AS total FROM vale WHERE FechaDevolucionReal IS NULL"; // Préstamos activos
 $bienesPrestadosQuery = "SELECT COUNT(*) AS total FROM detalles_bien WHERE Estado = 'Prestado'";
-$ultimosPrestamosQuery = "SELECT v.NumeroVale, d.Nombre, v.FechaHoraPrestamo FROM vale v JOIN deudor d ON v.Deudor_ID = d.ID ORDER BY v.FechaHoraPrestamo DESC LIMIT 5";
+$ultimosPrestamosQuery = "SELECT v.NumeroVale, d.Nombre, v.FechaHoraPrestamo FROM vale v 
+JOIN deudor d ON v.Deudor_ID = d.ID ORDER BY v.FechaHoraPrestamo DESC LIMIT 5";
 
 // Ejecutar consultas
 
@@ -36,13 +37,7 @@ $conexion->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Prestamista - Módulo PISC</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <style>
-        body {
-            background-color: rgba(255, 255, 255, 0);
-            /* Cambia el color de fondo a transparente*/
-        }
-    </style>
+
 </head>
 
 <body>
@@ -64,35 +59,35 @@ $conexion->close();
         <br>
         <h5>Últimos Préstamos</h5>
         <div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Número de Vale</th>
-                <th>Fecha y Hora del Préstamo</th>
-                <th>Nombre Deudor</th>
-                <th>Rol del Deudor</th>
-                <th>Carrera Recibe</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($prestamosHoyResult->num_rows > 0) : ?>
-                <?php while ($row = $prestamosHoyResult->fetch_assoc()) : ?>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($row['NumeroVale']) ?></td>
-                        <td><?= htmlspecialchars($row['FechaHoraPrestamo']) ?></td>
-                        <td><?= htmlspecialchars($row['NombreDeudor']) ?></td>
-                        <td><?= htmlspecialchars($row['Rol']) ?></td>
-                        <td><?= htmlspecialchars($row['CarreraRecibe']) ?></td>
+                        <th>Número de Vale</th>
+                        <th>Fecha y Hora del Préstamo</th>
+                        <th>Nombre Deudor</th>
+                        <th>Rol del Deudor</th>
+                        <th>Carrera o área del Deudor</th>
                     </tr>
-                <?php endwhile; ?>
-            <?php else : ?>
-                <tr>
-                    <td colspan="5">No se han realizado préstamos hoy.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</div>
+                </thead>
+                <tbody>
+                    <?php if ($prestamosHoyResult->num_rows > 0) : ?>
+                        <?php while ($row = $prestamosHoyResult->fetch_assoc()) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['NumeroVale']) ?></td>
+                                <td><?= htmlspecialchars($row['FechaHoraPrestamo']) ?></td>
+                                <td><?= htmlspecialchars($row['NombreDeudor']) ?></td>
+                                <td><?= htmlspecialchars($row['Rol']) ?></td>
+                                <td><?= htmlspecialchars($row['CarreraRecibe']) ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="5">No se han realizado préstamos hoy.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>

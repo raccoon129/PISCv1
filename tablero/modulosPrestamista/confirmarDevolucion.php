@@ -2,6 +2,7 @@
 
 include('../../db.php');
 include('../control_acceso.php');
+include('../session_check.php');
 verificarAcceso(['Prestamista']);
 // Verificar si el número de vale está establecido y es un número válido
 if (isset($_GET['numeroVale']) && is_numeric($_GET['numeroVale'])) {
@@ -36,8 +37,25 @@ $stmt->bind_param("i", $numeroVale);
 $stmt->execute();
 $resultadoBienes = $stmt->get_result();
 
-// Cerrar la conexión
-$stmt->close();
+$username = $_SESSION['username'];
+//Obtener el username
+$nombreCompletoUsuario = ""; // Inicializa la variable
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    $consultaNombre = "SELECT nombrecompleto FROM usuario WHERE username = ?";
+    if ($stmt = $conexion->prepare($consultaNombre)) {
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        if ($resultado->num_rows > 0) {
+            $fila = $resultado->fetch_assoc();
+            $nombreCompletoUsuario = $fila['nombrecompleto']; // Aquí guarda el nombre completo del usuario
+        }
+        $stmt->close();
+    }
+}
+
+
 $conexion->close();
 ?>
 
@@ -56,7 +74,7 @@ $conexion->close();
         <h2>Confirmar Devolución</h2>
 
         <input type="hidden" id="numeroVale" value="<?= htmlspecialchars($numeroVale); ?>">
-
+        <input type="hidden" id="usuarioConfirmaDevolucion" value="<?= htmlspecialchars($nombreCompletoUsuario) ?>">
         <br>
         <div class="alert alert-danger" role="alert">
             Esta acción debe ser realizada por personal autorizado bajo presencia de todos los bienes que serán entregados para su posterior almacenamiento.
@@ -66,6 +84,11 @@ $conexion->close();
             <strong>Usuario que realizó el préstamo:</strong>
             <?= htmlspecialchars($info['nombrecompleto']) ?>
         </p>
+        <!-- Suponiendo que ya se ha recuperado el nombre completo del usuario logueado -->
+        <p>
+            <strong>Prestamista que confirma la devolución:</strong> <?= htmlspecialchars($nombreCompletoUsuario) ?>
+        </p>
+
         <p><strong>Deudor:</strong>
             <?= htmlspecialchars($info['DeudorNombre']) ?>
         </p>
@@ -102,10 +125,15 @@ $conexion->close();
         <br>
         <br>
     </div>
+    <script type="text/javascript">
+        var nombreCompletoUsuario = "<?= htmlspecialchars($nombreCompletoUsuario) ?>";
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="scriptConfirmarDevolucion.js"></script>
+
+
 
 
 </body>

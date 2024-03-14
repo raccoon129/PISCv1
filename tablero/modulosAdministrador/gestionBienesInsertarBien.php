@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssssss", $bienID, $descripcion, $marca, $noSerie, $modelo, $ubicacion, $estado);
         $stmt->execute();
 
-        echo "<script>alert('El bien se ha añadido correctamente. Presione enter.'); window.close();</script>";
+        echo "<script>alert('El bien se ha añadido correctamente. Presione enter.'); window.close(); window.opener.location.reload();</script>";
     }
 
     // Cierre de la conexión

@@ -13,8 +13,18 @@ $(document).ready(function() {
             bienesID.push(bienID);
         });
         $("#bienesID").val(JSON.stringify(bienesID)); // Actualiza el campo oculto con el array de bienesID
-        $("#visualizarBienesID").text(JSON.stringify(bienesID)); // Muestra los bienesID en el div creado
+        
+        // Habilitar o deshabilitar el botón "Registrar Préstamo" basado en si hay bienes agregados o no
+        if (bienesID.length > 0) {
+            $("#btnRegistrarPrestamo").prop('disabled', false);
+        } else {
+            $("#btnRegistrarPrestamo").prop('disabled', true);
+        }
     }
+    
+    // Llama a actualizarCampoOculto() inicialmente por si hay datos preexistentes
+    actualizarCampoOculto();
+    
     
 
 
@@ -81,7 +91,7 @@ $(document).ready(function() {
             actualizarCampoOculto();
 
         } else {
-            alert("Debe seleccionar un bien de la lista.");
+            alert("Debe seleccionar un bien de la lista. Escriba en el campo 'Descripcion del Bien'.");
         }
     });
 
@@ -115,4 +125,21 @@ $(document).ready(function() {
 
 $("form").submit(function(e) { //Para ver en consola lo que se manda mientras lo refactorizo
     console.log($("#bienesID").val());
+});
+
+
+//contar caracteres para evitar que las observaciones sean extensas y evitar errores en la DB (Varchar 255)
+$(document).ready(function() {
+    $('#observaciones').on('input', function() {
+        // Contar los caracteres de las observaciones
+        var caracteres = $(this).val().length;
+        
+        // Si excede los 240 caracteres, deshabilita el botón
+        if (caracteres > 240) {
+            $('#btnRegistrarPrestamo').prop('disabled', true);
+        } else {
+            // De lo contrario, habilitar
+            $('#btnRegistrarPrestamo').prop('disabled', false);
+        }
+    });
 });

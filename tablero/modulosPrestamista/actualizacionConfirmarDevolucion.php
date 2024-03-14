@@ -4,14 +4,20 @@ include('../control_acceso.php');
 verificarAcceso(['Prestamista']);
 $script = ""; // variable para guardar el script de SweetAlert
 
-if(isset($_POST['numeroVale']) && is_numeric($_POST['numeroVale'])) {
+//echo "<pre>";
+//var_dump($_POST);
+//echo "</pre>";
+
+
+if (isset($_POST['numeroVale'], $_POST['usuarioConfirmaDevolucion']) && is_numeric($_POST['numeroVale'])) {
     $numeroVale = $_POST['numeroVale'];
+    $personaRecibe = $_POST['usuarioConfirmaDevolucion'];
     $fechaActual = date('Y-m-d H:i:s'); // Fecha y hora actual
 
     // Intenta actualizar la fecha de devolución real en la tabla `vale`
-    $queryVale = "UPDATE vale SET FechaDevolucionReal = ? WHERE NumeroVale = ?";
+    $queryVale = "UPDATE vale SET FechaDevolucionReal = ?, PersonaRecibe = ? WHERE NumeroVale = ?";
     $stmtVale = $conexion->prepare($queryVale);
-    $stmtVale->bind_param('si', $fechaActual, $numeroVale);
+    $stmtVale->bind_param('ssi', $fechaActual, $personaRecibe, $numeroVale);
     $resultVale = $stmtVale->execute();
 
     // Intenta actualizar el estado de los bienes en `detalles_bien` a "Disponible"
@@ -34,7 +40,7 @@ if(isset($_POST['numeroVale']) && is_numeric($_POST['numeroVale'])) {
     $stmtBienes->close();
     $conexion->close();
 } else {
-    $script = "<script>Swal.fire('Error', 'Número de vale inválido.', 'error').then((result) => { window.close(); });</script>";
+    //$script = "<script>Swal.fire('Error', 'Número de vale inválido.', 'error').then((result) => { window.close(); });</script>";
 }
 ?>
 

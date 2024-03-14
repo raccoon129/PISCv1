@@ -8,8 +8,8 @@
 include 'db.php';
 
 // Verificar si existe al menos un administrador
-//$sql = "SELECT ID FROM usuario WHERE rol='Administrador'";
-$sql = "SELECT ID FROM usuario WHERE rol='Administrador' AND ID = -1"; 
+$sql = "SELECT ID FROM usuario WHERE rol='Administrador'";
+//$sql = "SELECT ID FROM usuario WHERE rol='Administrador' AND ID = -1";
 $result = mysqli_query($conexion, $sql);
 
 if ($result && mysqli_num_rows($result) > 0) {
@@ -24,7 +24,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Instalación de PISC v1.0.1</title>
+        <title>Instalación de PISC v1.1.1</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
 
@@ -43,22 +43,35 @@ if ($result && mysqli_num_rows($result) > 0) {
                         $password = mysqli_real_escape_string($conexion, $_POST['password']); // Esta es la contraseña en texto plano
                         $nombrecompleto = mysqli_real_escape_string($conexion, $_POST['nombrecompleto']);
 
-                        // Hashear la contraseña antes de guardarla en la base de datos
-                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                        $revisarUsuarioSQL = "SELECT ID FROM usuario WHERE username = ?";
 
-                        // Obtener la fecha y hora actuales
-                        $fechacreacion = date('Y-m-d H:i:s');
+                        if ($stmt = $conexion->prepare($revisarUsuarioSQL)) {
+                            $stmt->bind_param("s", $username);
+                            $strmt->is_execute();
+                            $stmt->store_result();
 
-                        $sql = "INSERT INTO usuario (username, password, rol, nombrecompleto, fechacreacion) VALUES (?, ?, 'Administrador', ?, ?)";
-
-                        if ($stmt = $conexion->prepare($sql)) {
-                            // Nota: Ahora estamos pasando $hashed_password en lugar de $password
-                            $stmt->bind_param("ssss", $username, $hashed_password, $nombrecompleto, $fechacreacion);
-
-                            if ($stmt->execute()) {
-                                echo "<script>alert('Administrador creado con éxito. Por favor, inicie sesión.'); window.location = 'login.php';</script>";
+                            if ($stmt->num_rows > 0) {
+                                echo "<div class='alert alert-danger'>El nombre de usuario ya existe.</div>";
                             } else {
-                                echo "<div class='alert alert-danger'>Error al crear el administrador: " . $stmt->error . "</div>";
+
+                                // Hashear la contraseña antes de guardarla en la base de datos
+                                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                                // Obtener la fecha y hora actuales
+                                $fechacreacion = date('Y-m-d H:i:s');
+
+                                $sql = "INSERT INTO usuario (username, password, rol, nombrecompleto, fechacreacion) VALUES (?, ?, 'Administrador', ?, ?)";
+
+                                if ($stmt = $conexion->prepare($sql)) {
+                                    // Nota: Ahora estamos pasando $hashed_password en lugar de $password
+                                    $stmt->bind_param("ssss", $username, $hashed_password, $nombrecompleto, $fechacreacion);
+
+                                    if ($stmt->execute()) {
+                                        echo "<script>alert('Administrador creado con éxito. Por favor, inicie sesión.'); window.location = 'login.php';</script>";
+                                    } else {
+                                        echo "<div class='alert alert-danger'>Error al crear el administrador: " . $stmt->error . "</div>";
+                                    }
+                                }
                             }
 
                             $stmt->close();
@@ -66,10 +79,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             echo "<div class='alert alert-danger'>Error al preparar la consulta: " . $conexion->error . "</div>";
                         }
                     }
-
-
                     ?>
-
                     <form method="POST" id="formCrearUsuario">
                         <div class="form-group">
                             <label for="username">Nombre de usuario para inicio de sesión: (No se permiten espacios en blanco)</label>
@@ -88,18 +98,14 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                     <div class="mt-4 text-center">
                         <img src="img/CajaPISC.png" alt="Branding PISC" class="img-fluid">
-                        <p>PISC - Préstamos ISC v1.0.1</p>
+                        <p>PISC - Préstamos ISC v1.1.1</p>
                     </div>
                 </div>
             </div>
         </div>
     </body>
     <script src="validarCamposSinEspacios.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            validarCampoSinEspacios('formCrearUsuario', 'username');
-        });
-    </script>
+    <script src="scriptIndex.js"></script>
 
     </html>
 <?php

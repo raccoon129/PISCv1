@@ -1,5 +1,5 @@
 <?php
-// ESTE ES UN MÓDULO PRINCIPAL
+// ESTE ES UN MÓDULO PRINCIPAL DE PRESTAMISTA
 
 include('../../db.php');
 include('../control_acceso.php');
@@ -55,12 +55,6 @@ if ($result->num_rows > 0) {
 
     <!-- Incluir DataTables JS -->
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <style>
-        body {
-            background-color: rgba(255, 255, 255, 0);
-            /* Cambia el color de fondo a transparente*/
-        }
-    </style>
 </head>
 
 <body>
