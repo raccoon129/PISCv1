@@ -7,7 +7,7 @@ $accion = $_POST['accion'] ?? ''; // Usando el operador de fusión de null
 function alerta($message) {
     header('Content-Type: text/html; charset=utf-8');
     $message = addslashes($message);
-    echo "<script type='text/javascript'>alert('$message'); window.close();</script>";
+    echo "<script type='text/javascript'>alert('$message'); window.close(); window.opener.location.reload();</script>";
     exit; // Asegura que no se ejecute más código PHP después de mostrar la alerta
 }
 
@@ -108,7 +108,8 @@ switch ($accion) {
 
 
     default:
-        alerta('Acción no encontrada');
+        alerta('Acción no encontrada. Esta excepción no tendría que aparecer, y si lo hace posiblemente se han modificado
+        las funcionalidades de este submódulo.');
         break;
 }
 

@@ -173,7 +173,7 @@ $pdf->Text(57, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
 //Acá la persona que recibe los bienes. Solo aparece cuando ya se han devuelto.
 $pdf->Text(99, 133, utf8_decode(recortarTexto($nombreRecibe)), 'LR', 1, 'L');
 // La misma persona que se le prestan los bienes, debe entregarlos.
-$pdf->Text(140, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
+$pdf->Text(140, 133, utf8_decode(recortarTexto($nombreDeudor)), 'LR', 1, 'L');
 
 // Acá los campos adicionales de area, unidad y responsable.
 $pdf->Text(56, 42, utf8_decode($area), 'LR', 1, 'L');

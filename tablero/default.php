@@ -23,15 +23,15 @@ session_start();
         function obtenerSaludo()
         {
             $hora = date('H');
-            //echo $hora;
-            if ($hora >= 6 && $hora <= 12) {
+            if ($hora >= 6 && $hora < 12) {
                 return 'Buenos días';
-            } elseif ($hora >= 12 && $hora <= 18) {
+            } elseif ($hora >= 12 && $hora < 18) {
                 return 'Buenas tardes';
             } else {
                 return 'Buenas noches';
             }
         }
+
 
         // Obtener el saludo según la hora del día
         $saludo = obtenerSaludo();
@@ -56,7 +56,7 @@ session_start();
         ?>
 
         <h2><?php echo "$saludo, $nombreCompleto"; ?></h2>
-        <p>Selecciona una opción en el menú para continuar.</p>
+        <p>Selecciona una opción en el menú para continuar o refresca esta ventana (F5).</p>
         <br>
         <br>
         <!-- Añadir la imagen -->
@@ -65,6 +65,8 @@ session_start();
         </div>
 
         <p strong class="text-center">PISC v1.1.1</p>
+        <p strong class="text-center">Última actualización: <?php echo date('H:i:s'); ?></p>
+
     </div>
 </body>
 

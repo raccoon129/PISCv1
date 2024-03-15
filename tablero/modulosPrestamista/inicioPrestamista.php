@@ -66,7 +66,7 @@ $conexion->close();
                         <th>Fecha y Hora del Préstamo</th>
                         <th>Nombre Deudor</th>
                         <th>Rol del Deudor</th>
-                        <th>Carrera o área del Deudor</th>
+                        <th>Carrera o Área del Deudor</th>
                     </tr>
                 </thead>
                 <tbody>

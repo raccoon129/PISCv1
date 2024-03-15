@@ -69,6 +69,7 @@ try {
     echo "<script type='text/javascript'>
             alert('El préstamo ha sido registrado exitosamente.');
             window.open('generarVale.php', '_blank'); // Abre generarVale.php en una nueva ventana
+            window.location.href='nuevoPrestamo.php';
           </script>";
 } catch (Exception $e) {
     $conexion->rollback(); // Revertir la transacción en caso de error
@@ -79,4 +80,5 @@ try {
           </script>";
 }
 
-$conexion->close(); // Cerrar la conexión a la base de datos
+$conexion->close();
+?>

@@ -46,7 +46,7 @@ verificarAcceso(['Prestamista']);
     </div>
 
     <div class="pie-pagina">
-        Dashboard para Prestamistas V1.0 | PISC - Préstamos ISC V1.1.1 (Estable)
+        Dashboard para Prestamistas v1.0 | PISC - Préstamos ISC v1.1.1 (Estable)
     </div>
 
     <!-- Script para cargar los modulos dentro del div. Podrás cuestionar mis métodos, pero no mis resultados. -->

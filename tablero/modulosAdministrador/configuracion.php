@@ -12,7 +12,7 @@ $nombreLaboratorio = $data['NombreLaboratorio'] ?? '';
 
 // Procesar la eliminación de una carrera
 if (isset($_POST['eliminar']) && !empty($_POST['eliminarCarrera'])) {
-    $eliminarCarrera = $_POST['eliminarCarrera'];
+    $eliminarCarrera = trim($_POST['eliminarCarrera']);
     if (($key = array_search($eliminarCarrera, $carreras)) !== false) {
         unset($carreras[$key]);
         $data['carreras'] = array_values($carreras); // Reindexar el array
@@ -23,9 +23,9 @@ if (isset($_POST['eliminar']) && !empty($_POST['eliminarCarrera'])) {
 }
 
 // Procesar el formulario de nueva carrera
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nuevaCarrera']) && !empty($_POST['nuevaCarrera'])) {
-    $nuevaCarrera = $_POST['nuevaCarrera'];
-    if (!in_array($nuevaCarrera, $carreras)) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nuevaCarrera'])) {
+    $nuevaCarrera = trim($_POST['nuevaCarrera']);
+    if (!empty($nuevaCarrera) && !in_array($nuevaCarrera, $carreras)) {
         $carreras[] = $nuevaCarrera;
         $data['carreras'] = $carreras;
         file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
@@ -36,13 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nuevaCarrera']) && !em
 
 // Procesar el nombre del laboratorio
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) {
-    $nombreLaboratorio = $_POST['nombreLaboratorio'];
-    $data['NombreLaboratorio'] = $nombreLaboratorio;
-    file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
-    echo "<script>alert('Nombre del laboratorio actualizado con éxito.'); window.location.href='configuracion.php';</script>";
-    exit;
+    $nombreLaboratorio = trim($_POST['nombreLaboratorio']);
+    if (!empty($nombreLaboratorio)) {
+        $data['NombreLaboratorio'] = $nombreLaboratorio;
+        file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+        echo "<script>alert('Nombre del laboratorio actualizado con éxito.'); window.location.href='configuracion.php';</script>";
+        exit;
+    }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -62,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) 
                 <form action="configuracion.php" method="post">
                     <h4>Selección de procedencia de deudores</h4>
                     <div class="alert alert-primary" role="alert">
-                        Estas aparecerán al seleccionar una procedencia de deudor en la sección
+                        Aparecerán al seleccionar una procedencia de deudor en la sección
                         "Nuevo Préstamo" para usuarios Prestamistas.
                     </div>
                     <div class="form-group">
