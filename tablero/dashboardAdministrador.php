@@ -41,6 +41,7 @@ verificarAcceso(['Administrador']);
                 <li><a href="#gestionBienes" onclick="cargarModulo('modulosAdministrador/gestionBienes.php', '#gestionBienes'); return false;"><i class="fas fa-edit"></i> Gestión de bienes</a></li>
                 <li><a href="#historialPrestamos" onclick="cargarModulo('modulosAdministrador/admonHistorialPrestamos.php', '#historialPrestamos'); return false;"><i class="fas fa-box"></i> Administrar historial de préstamos</a></li>
                 <li><a href="#admonUsuarios" onclick="cargarModulo('modulosAdministrador/admonUsuarios.php', '#admonUsuarios'); return false;"><i class="fas fa-user"></i> Administración de usuarios</a></li>
+                <li><a href="#configuracion" onclick="cargarModulo('modulosAdministrador/configuracion.php', '#configuracion'); return false;"><i class="fas fa-hammer"></i> Configuración de variables</a></li>
             </ul>
         </nav>
     </div>

@@ -17,6 +17,11 @@ try {
     $nombreDeudor = $_POST['nombreDeudor'];
     $rolDeudor = $_POST['rolDeudor'];
 
+    $area = $_POST['area'];
+    $unidad = $_POST['unidad'];
+    $responsable = $_POST['responsable'];
+
+
     // Crear ID del deudor basado en su rol
     $idDeudor = "";
     switch ($rolDeudor) {
@@ -38,10 +43,12 @@ try {
     $stmt->execute();
 
     // Insertar el vale (sin Bien_ID, ya que esta columna fue eliminada)
-    $insertarVale = "INSERT INTO vale (NumeroVale, FechaHoraPrestamo, Deudor_ID, CarreraRecibe, FechaDevolucionPrevista, Observaciones, PersonaEntrega) VALUES (?, ?, ?, ?, ?, ?, (SELECT ID FROM usuario WHERE nombrecompleto = ? LIMIT 1))";
+    $insertarVale = "INSERT INTO vale (NumeroVale, FechaHoraPrestamo, Deudor_ID, CarreraRecibe, FechaDevolucionPrevista, Observaciones, PersonaEntrega, Area, Unidad, Responsable) VALUES (?, ?, ?, ?, ?, ?, (SELECT ID FROM usuario WHERE nombrecompleto = ? LIMIT 1), ?, ?, ?)";
     $stmt = $conexion->prepare($insertarVale);
-    $stmt->bind_param("issssss", $numeroNuevoVale, $fechaSolicitud, $idDeudor, $carrera, $fechaDevolucion, $observaciones, $nombreCompletoEntrega);
+    $stmt->bind_param("isssssssss", $numeroNuevoVale, $fechaSolicitud, $idDeudor, $carrera, $fechaDevolucion, $observaciones, $nombreCompletoEntrega, $area, $unidad, $responsable);
     $stmt->execute();
+    
+    
 
     // Insertar cada Bien_ID en la tabla detalle_vale
     foreach ($bienesID as $bienID) {
@@ -73,4 +80,3 @@ try {
 }
 
 $conexion->close(); // Cerrar la conexión a la base de datos
-?>

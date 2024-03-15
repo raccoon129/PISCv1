@@ -30,6 +30,10 @@ if ($fila = $resultado->fetch_assoc()) {
 } else {
     $nombreCompletoEntrega = "No disponible";
 }
+
+// Cargar las carreras desde el archivo JSON
+$data = json_decode(file_get_contents("../variablesConfiguracion.json"), true);
+$carreras = $data['carreras'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -62,6 +66,22 @@ if ($fila = $resultado->fetch_assoc()) {
                         <label for="entrega">Nombre completo del prestamista que entrega los bienes:</label>
                         <input type="text" class="form-control" id="entrega" name="entrega" value="<?php echo htmlspecialchars($nombreCompletoEntrega); ?>" readonly>
                     </div>
+                    <!-- Área, Unidad y Responsable -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="area">Área:</label>
+                            <input type="text" class="form-control" id="area" name="area" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="unidad">Unidad:</label>
+                            <input type="text" class="form-control" id="unidad" name="unidad">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="responsable">Responsable:</label>
+                        <input type="text" class="form-control" id="responsable" name="responsable">
+                    </div>
+
                     <!-- Tarjeta para visualizar los bienes agregados -->
                     <div class="card mt-4">
                         <div class="card-header">Listado de bienes a prestar</div>
@@ -91,17 +111,11 @@ if ($fila = $resultado->fetch_assoc()) {
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="carrera">Carrera del deudor:</label>
+                        <label for="carrera">Procedencia del deudor:</label>
                         <select class="form-control" id="carrera" name="carrera" required>
-                            <option value="Ing Sistemas Computacionales">Ing Sistemas Computacionales</option>
-                            <option value="Ing Mecatronica">Ing Mecatrónica</option>
-                            <option value="Ing Energias Renovables">Ing en Energías Renovables</option>
-                            <option value="Ing Industrial">Ing Industrial</option>
-                            <option value="Ing Administracion">Ing en Administración</option>
-                            <option value="Ing Innovacion Agricola Sustentable">Ing en Innovación Agrícola Sustentable</option>
-                            <option value="Ing GestionEmpresarial">Ing en Gestión Empresarial</option>
-                            <option value="Arquitectura">Arquitectura</option>
-                            <option value="Gastronomia">Gastronomía</option>
+                            <?php foreach ($carreras as $carrera) : ?>
+                                <option value="<?php echo $carrera; ?>"><?php echo $carrera; ?></option>
+                            <?php endforeach; ?>
                             <option value="No aplica">No aplica</option>
                         </select>
                     </div>

@@ -6,24 +6,20 @@ verificarAcceso();
 // Obtener el NumeroVale desde el GET request
 $numeroVale = isset($_GET['numeroVale']) ? $_GET['numeroVale'] : die('ERROR: Número de Vale no proporcionado.');
 
-//  consulta para obtener los detalles del vale, incluyendo información del deudor y del usuario que realiza el préstamo
-$queryVale = "SELECT v.*, 
-d.Nombre AS NombreDeudor, 
-d.Rol, 
-u.nombrecompleto AS NombreUsuario, 
-v.PersonaRecibe
-FROM vale v
-JOIN deudor d ON v.Deudor_ID = d.ID
-JOIN usuario u ON v.PersonaEntrega = u.ID
-WHERE v.NumeroVale = ?;
-";
+// Consulta para obtener los detalles del vale, incluyendo información del deudor y del usuario que realiza el préstamo
+$queryVale = "SELECT v.*, d.Nombre AS NombreDeudor, d.Rol, u.nombrecompleto AS NombreUsuario, v.PersonaRecibe, v.Area, v.Unidad, v.Responsable
+              FROM vale v
+              JOIN deudor d ON v.Deudor_ID = d.ID
+              JOIN usuario u ON v.PersonaEntrega = u.ID
+              WHERE v.NumeroVale = ?";
+
 $stmtVale = $conexion->prepare($queryVale);
 $stmtVale->bind_param('i', $numeroVale);
 $stmtVale->execute();
 $resultVale = $stmtVale->get_result();
 $detalleVale = $resultVale->fetch_assoc();
 
-// consulta para obtener los bienes asociados a este vale
+// Consulta para obtener los bienes asociados a este vale
 $queryBienes = "SELECT i.*, db.Estado AS EstadoBien
                 FROM detalle_vale dv
                 JOIN detalles_bien db ON dv.Bien_ID = db.ID
@@ -54,6 +50,9 @@ $stmtBienes->close();
         <div><strong>Deudor:</strong> <?= htmlspecialchars($detalleVale['NombreDeudor']) ?> (<?= htmlspecialchars($detalleVale['Rol']) ?>)</div>
         <div><strong>Prestamista que entregó los bienes:</strong> <?= htmlspecialchars($detalleVale['NombreUsuario']) ?></div>
         <div><strong>Prestamista que recibió los bienes:</strong> <?= $detalleVale['PersonaRecibe'] ? htmlspecialchars($detalleVale['PersonaRecibe']) : 'No se ha registrado devolución.' ?></div>
+        <div><strong>Área:</strong> <?= $detalleVale['Area'] ? htmlspecialchars($detalleVale['Area']) : 'No especificado' ?></div>
+        <div><strong>Unidad:</strong> <?= $detalleVale['Unidad'] ? htmlspecialchars($detalleVale['Unidad']) : 'No especificado' ?></div>
+        <div><strong>Responsable:</strong> <?= $detalleVale['Responsable'] ? htmlspecialchars($detalleVale['Responsable']) : 'No especificado' ?></div>
         <div><strong>Fecha de préstamo:</strong> <?= htmlspecialchars($detalleVale['FechaHoraPrestamo']) ?></div>
         <div><strong>Fecha prevista de devolución:</strong> <?= htmlspecialchars($detalleVale['FechaDevolucionPrevista']) ?></div>
         <div><strong>Fecha real de devolución:</strong> <?= htmlspecialchars($detalleVale['FechaDevolucionReal'] ?? 'No devuelto aún') ?></div>
@@ -84,7 +83,15 @@ $stmtBienes->close();
                 <?php endwhile; ?>
             </tbody>
         </table>
+        <button id="btnImprimir" class="btn btn-primary">Imprimir</button>
+        <br>
+        <br>
     </div>
+    <script>
+        document.getElementById('btnImprimir').addEventListener('click', function() {
+            window.print();
+        });
+    </script>
 </body>
 
 </html>

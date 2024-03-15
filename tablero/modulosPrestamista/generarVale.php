@@ -45,12 +45,14 @@ if (is_null($valeID)) {
 $stmt = $conexion->prepare("
     SELECT v.NumeroVale, v.FechaHoraPrestamo, v.Deudor_ID, d.Nombre AS Nombre_Deudor, 
     v.CarreraRecibe AS Procedencia, v.FechaDevolucionPrevista AS FechaDevolucion, 
-    v.PersonaEntrega, u.nombrecompleto AS Nombre_Usuario_Entrega, v.observaciones, v.PersonaRecibe 
+    v.PersonaEntrega, u.nombrecompleto AS Nombre_Usuario_Entrega, v.observaciones, 
+    v.PersonaRecibe, v.Area, v.Unidad, v.Responsable
     FROM vale v
     LEFT JOIN deudor d ON v.Deudor_ID = d.ID
     LEFT JOIN usuario u ON v.PersonaEntrega = u.ID
     WHERE v.NumeroVale = ?
 ");
+
 
 $stmt->bind_param("i", $valeID);
 $stmt->execute();
@@ -65,13 +67,18 @@ if ($fila = $resultado->fetch_assoc()) {
     $nombreDeudor = $fila['Nombre_Deudor'];
     $nombreEntrega = $fila['Nombre_Usuario_Entrega'];
     $fechaHoraPrestamo = new DateTime($fila['FechaHoraPrestamo']);
-    $fechaSolicitud = $fechaHoraPrestamo->format('Y-m-d'); // Formatear para mostrar solo la fecha
+    $fechaSolicitud = $fechaHoraPrestamo->format('Y-m-d');
     $fechaDevolucion = new DateTime($fila['FechaDevolucion']);
     $fechaDevolucionPrevista = $fechaDevolucion->format('Y-m-d');
     $nombreRecibe = $fila['PersonaRecibe'];
+    // Nuevos campos
+    $area = $fila['Area'];
+    $unidad = $fila['Unidad'];
+    $responsable = $fila['Responsable'];
 } else {
     die('No se encontró el vale con el ID proporcionado.');
 }
+
 
 // Consulta para obtener los bienes asociados al vale
 $stmt = $conexion->prepare("
@@ -89,6 +96,9 @@ while ($bien = $bienes->fetch_assoc()) {
     $bienesData[] = $bien;
 }
 
+// Cargar el archivo JSON con la variable
+$data = json_decode(file_get_contents("../variablesConfiguracion.json"), true);
+$nombreLaboratorio = $data['NombreLaboratorio'] ?? 'Nombre del laboratorio no configurado';
 
 
 $conexion->close();
@@ -123,17 +133,16 @@ $pdf->SetXY(8, 10); // Ajustar la posición del texto inicial
 $pdf->MultiCell(0, 0, 'No de vale: ' . utf8_decode($numeroVale), 0, 'L');
 
 //escribirDatos($pdf, 160, 26, $fechaHoraPrestamo);
-$pdf->Text(118, 27, utf8_decode('Abundio Martínez'), 'LR', 1, 'L');
+$pdf->Text(118, 27, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 $pdf->Text(155, 42, utf8_decode($fechaSolicitud), 'LR', 1, 'L');
-$pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
 $pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
 $pdf->Text(20, 42, utf8_decode(recortarTexto($carrera)), 'LR', 1, 'L');
 
 //Recibi del laboratorio "tal"
-$pdf->Text(49, 57, utf8_decode('Abundio Martínez'), 'LR', 1, 'L');
+$pdf->Text(49, 57, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 
 // Recorriendo la coleccion de Bienes(solo la descripcion) prestados
-$ejeYPrestados = 67; // Posición inicial en Y para lo que se escribirá
+$ejeYPrestados = 66.4; // Posición inicial en Y para lo que se escribirá
 foreach ($bienesData as $index => $bien) {
     $line = utf8_decode($bien['Descripcion']);
     $pdf->Text(23, $ejeYPrestados, $line);
@@ -141,7 +150,7 @@ foreach ($bienesData as $index => $bien) {
 }
 
 // Recorriendo la coleccion de bienesID/NoInventario
-$ejeYPrestados = 67;
+$ejeYPrestados = 66.4;
 foreach ($bienesData as $index => $bien) {
     $line = utf8_decode(recortarTexto10($bien['Bien_ID']));
     $pdf->Text(136, $ejeYPrestados, $line);
@@ -149,7 +158,7 @@ foreach ($bienesData as $index => $bien) {
 }
 
 // colocando cantidad (solo uno por integridad), todos los bienes tienen distinto no inventario
-$ejeYPrestados = 67;
+$ejeYPrestados = 66.4;
 foreach ($bienesData as $index => $bien) {
     $line = "1";
     $pdf->Text(167, $ejeYPrestados, $line);
@@ -165,6 +174,15 @@ $pdf->Text(57, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
 $pdf->Text(99, 133, utf8_decode(recortarTexto($nombreRecibe)), 'LR', 1, 'L');
 // La misma persona que se le prestan los bienes, debe entregarlos.
 $pdf->Text(140, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
+
+// Acá los campos adicionales de area, unidad y responsable.
+$pdf->Text(56, 42, utf8_decode($area), 'LR', 1, 'L');
+$pdf->Text(35, 107, utf8_decode($unidad), 'LR', 1, 'L');
+$pdf->Text(35, 111, utf8_decode($responsable), 'LR', 1, 'L');
+
+// area en la parte inferior
+$pdf->Text(35, 103, utf8_decode($area), 'LR', 1, 'L');
+
 $pdf->Output('I', 'valeGenerado.pdf'); // Cambiar 'D' por 'I' para abrir el PDF en el navegador
 
 ?>
