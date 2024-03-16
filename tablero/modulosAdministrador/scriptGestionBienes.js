@@ -1,6 +1,6 @@
 function abrirEditarBien() {
     var url = 'gestionBienesEditarBien.php';
-    window.open(url, "Editar Bien", "width=1100,height=600");
+    window.open(url, "Editar Bien", "width=1250,height=600");
 }
 
 function abrirFormularioNuevoBien() {

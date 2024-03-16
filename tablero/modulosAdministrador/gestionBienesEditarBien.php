@@ -1,16 +1,25 @@
 <?php
-include '../../db.php'; 
+include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
+
 // Obtener el BienID del formulario
 $bienID = isset($_GET['bienID']) ? $_GET['bienID'] : '';
 
-// Consulta a la base de datos para obtener los datos relacionados con el BienID
-$sql = "SELECT * FROM inventario WHERE BienID = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("s", $bienID);
-$stmt->execute();
-$result = $stmt->get_result();
+// Flag para saber si se encontraron resultados
+$encontrado = false;
+
+if ($bienID !== '') {
+    // Consulta a la base de datos para obtener los datos relacionados con el BienID
+    $sql = "SELECT * FROM inventario WHERE BienID = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $bienID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $encontrado = true;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,56 +28,73 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <title>Edición de Bienes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edición de Bienes - Módulo PISC</title>
 </head>
 
 <body>
-    <div id="edicionBienes" class="container mt-3">
+    <div class="container mt-3">
         <h2>Edición de Bienes</h2>
-        <p>&nbsp;</p>
-        <div class="row">
-            <div class="col">
-                <h4>Buscar detalles del bien</h4>
-                <!-- Formulario para buscar bien -->
-                <form id="formBuscarBien" action="gestionBienesSeccionEditarBien.php" method="GET">
-                    <div class="mb-3">
-                        <label for="bienID" class="form-label">Ingresa el BienID/No. de Inventario</label>
-                        <input type="text" class="form-control" id="bienID" name="bienID" required>
+        <br>
+        <div class="accordion" id="accordionExample">
+            <!-- Panel de búsqueda -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button <?php echo $encontrado ? 'collapsed' : ''; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="<?php echo $encontrado ? 'false' : 'true'; ?>" aria-controls="collapseOne">
+                        Buscar detalles del bien
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse <?php echo $encontrado ? '' : 'show'; ?>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form id="formBuscarBien" action="gestionBienesEditarBien.php" method="GET">
+                            <div class="mb-3">
+                                <label for="bienID" class="form-label">Ingresa el No. de Inventario</label>
+                                <input type="text" class="form-control" id="bienID" name="bienID" required>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar y Editar</button>
+                            </div>
+                        </form>
+                        
                     </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar y Editar</button>
-                    </div>
-                </form>
-
+                </div>
             </div>
-            <div class="container mt-3">
-                <h2>Editar campos para el bien con No/ID: <?php echo htmlspecialchars($bienID); ?></h2>
-
-                <!-- Tabla con campos de formulario -->
-                <form id="formActualizarInventario" action="gestionBienesProcesarActualizacion.php" method="post">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>BienID</th>
-                                <th>Descripción</th>
-                                <th>Marca</th>
-                                <th>No. de Serie</th>
-                                <th>Modelo</th>
-                                <th>Ubicación</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<tr>
+            
+            <!-- Panel de edición -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button <?php echo $encontrado ? '' : 'collapsed'; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="<?php echo $encontrado ? 'true' : 'false'; ?>" aria-controls="collapseTwo">
+                        Editar campos del bien
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse <?php echo $encontrado ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="alert alert-info" role="alert">
+                            Recuerde que el No. de Inventario no puede ser modificado por cuestiones de integridad.
+                        </div>
+                        <?php if ($encontrado) : ?>
+                            <h4>Editar campos para el bien con No. de inventario: <?php echo htmlspecialchars($bienID); ?></h4>
+                            <!-- Tabla con campos de formulario -->
+                            <form id="formActualizarInventario" action="gestionBienesProcesarActualizacion.php" method="post">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>No. de</th>
+                                            <th>Descripción</th>
+                                            <th>Marca</th>
+                                            <th>No. de Serie</th>
+                                            <th>Modelo</th>
+                                            <th>Ubicación</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>
             <td><input type='hidden' name='InventarioID[]' value='" . $row["InventarioID"] . "'>
                 <input type='text' class='form-control' name='BienID[]' value='" . $row["BienID"] . "' readonly></td>
             <td><input type='text' class='form-control' name='Descripcion[]' value='" . $row["Descripcion"] . "'></td>
@@ -99,18 +125,25 @@ $result = $stmt->get_result();
             </td>
             <td><button type='submit' class='btn btn-primary'>Confirmar</button></td>
             </tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='8'><strong>No se ha seleccionado un BienID/No. de inventario o no existen datos referentes.</strong></td></tr>";
-                            }
-                            ?>
-                        </tbody>
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='8'><strong>No se ha seleccionado un BienID/No. de inventario o no existen datos referentes.</strong></td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
 
-                    </table>
-                </form>
+                                </table>
+                            </form>
+
+                        <?php else : ?>
+                            <p>No se han encontrado detalles para el bien solicitado.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

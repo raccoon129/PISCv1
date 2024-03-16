@@ -146,7 +146,7 @@ $ejeYPrestados = 66.4; // Posición inicial en Y para lo que se escribirá
 foreach ($bienesData as $index => $bien) {
     $line = utf8_decode($bien['Descripcion']);
     $pdf->Text(23, $ejeYPrestados, $line);
-    $ejeYPrestados += 6; // Ajuste para la siguiente línea
+    $ejeYPrestados += 5.4; // Ajuste para la siguiente línea
 }
 
 // Recorriendo la coleccion de bienesID/NoInventario
@@ -154,7 +154,7 @@ $ejeYPrestados = 66.4;
 foreach ($bienesData as $index => $bien) {
     $line = utf8_decode(recortarTexto10($bien['Bien_ID']));
     $pdf->Text(136, $ejeYPrestados, $line);
-    $ejeYPrestados += 6; // Ajuste para la siguiente línea
+    $ejeYPrestados += 5.4; // Ajuste para la siguiente línea
 }
 
 // colocando cantidad (solo uno por integridad), todos los bienes tienen distinto no inventario
@@ -162,7 +162,7 @@ $ejeYPrestados = 66.4;
 foreach ($bienesData as $index => $bien) {
     $line = "1";
     $pdf->Text(167, $ejeYPrestados, $line);
-    $ejeYPrestados += 6; // Ajuste para la siguiente línea
+    $ejeYPrestados += 5.4; // Ajuste para la siguiente línea
 }
 
 //Aca terminan los campos de lo que se presta

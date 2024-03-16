@@ -1,4 +1,30 @@
-$(document).ready(function() {
+$(document).ready(function () {
+
+    //Para evitar que se introduzcan espacios en blanco
+    $('#btnRegistrarPrestamo').click(function (event) {
+        var isValid = true;
+
+        // Lista de campos a validar
+        var campos = ['#nombreDeudor', '#area', '#unidad', '#responsable', '#descripcionBien'];
+
+        campos.forEach(function (campo) {
+            var valor = $(campo).val().trim();
+            if (!valor) {
+                isValid = false;
+                alert('Por favor, rellene todos los campos. Los espacios en blanco no son válidos.');
+                $(campo).focus();
+                return false; // Sale del ciclo forEach
+            }
+        });
+
+        // Si algún campo no es válido, previene la acción submit
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+
+
     // Variables temporales para almacenar los datos del bien seleccionado
     let tempBienID = '';
     let tempDescripcion = '';
@@ -8,12 +34,12 @@ $(document).ready(function() {
 
     function actualizarCampoOculto() {
         var bienesID = [];
-        $("#tablaBienes tbody tr").each(function() {
+        $("#tablaBienes tbody tr").each(function () {
             var bienID = $(this).find("td:nth-child(2)").text(); // Captura la segunda columna de bienID
             bienesID.push(bienID);
         });
         $("#bienesID").val(JSON.stringify(bienesID)); // Actualiza el campo oculto con el array de bienesID
-        
+
         // Habilitar o deshabilitar el botón "Registrar Préstamo" basado en si hay bienes agregados o no
         if (bienesID.length > 0) {
             $("#btnRegistrarPrestamo").prop('disabled', false);
@@ -21,14 +47,14 @@ $(document).ready(function() {
             $("#btnRegistrarPrestamo").prop('disabled', true);
         }
     }
-    
+
     // Llama a actualizarCampoOculto() inicialmente por si hay datos preexistentes
     actualizarCampoOculto();
-    
-    
 
 
-    $("#descripcionBien").keyup(function() {
+
+
+    $("#descripcionBien").keyup(function () {
         var descripcion = $(this).val();
         if (descripcion != '') {
             $.ajax({
@@ -37,7 +63,7 @@ $(document).ready(function() {
                 data: {
                     descripcion: descripcion
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#listaBienes').fadeIn().html(data);
                 }
             });
@@ -46,7 +72,7 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on('click', '.bien-item', function() {
+    $(document).on('click', '.bien-item', function () {
         tempDescripcion = $(this).data('descripcion');
         tempBienID = $(this).data('bienid');
         tempUbicacion = $(this).data('ubicacion'); // Capturar la ubicación del bien seleccionado
@@ -56,9 +82,9 @@ $(document).ready(function() {
         $('#ubicacionBien').val(tempUbicacion);
     });
 
-    $("#agregarBien").click(function() {
+    $("#agregarBien").click(function () {
         var bienYaAgregado = false;
-        $("#tablaBienes tbody tr").each(function() {
+        $("#tablaBienes tbody tr").each(function () {
             var bienIDEnLista = $(this).find("td:nth-child(2)").text();
             if (bienIDEnLista === tempBienID) {
                 bienYaAgregado = true;
@@ -95,7 +121,7 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on('click', '.removeBien', function() {
+    $(document).on('click', '.removeBien', function () {
         $(this).closest('tr').remove();
         if ($("#tablaBienes tbody tr").length < 6) {
             $("#agregarBien").prop('disabled', false);
@@ -104,17 +130,17 @@ $(document).ready(function() {
         actualizarCampoOculto();
     });
 
-        // Función para actualizar los estilos de los bienes ya seleccionados
+    // Función para actualizar los estilos de los bienes ya seleccionados
     function actualizarEstilosBienesSeleccionados() {
         // Itera sobre cada bien en la tabla de bienes agregados
-        $("#tablaBienes tbody tr").each(function() {
+        $("#tablaBienes tbody tr").each(function () {
             var bienID = $(this).find("td:nth-child(2)").text(); // Asume que el Bien ID está en la segunda columna
 
             // Itera sobre cada elemento en la lista de bienes y compara los IDs
-            $("#listaBienes .bien-item").each(function() {
+            $("#listaBienes .bien-item").each(function () {
                 var listItemID = $(this).data("id"); // Asume que usas data-id para identificar cada bien
 
-                if(listItemID == bienID) {
+                if (listItemID == bienID) {
                     $(this).css("color", "red"); // Marca el elemento de la lista con color rojo
                 }
             });
@@ -123,17 +149,17 @@ $(document).ready(function() {
 });
 
 
-$("form").submit(function(e) { //Para ver en consola lo que se manda mientras lo refactorizo
+$("form").submit(function (e) { //Para ver en consola lo que se manda mientras lo refactorizo
     console.log($("#bienesID").val());
 });
 
 
 //contar caracteres para evitar que las observaciones sean extensas y evitar errores en la DB (Varchar 255)
-$(document).ready(function() {
-    $('#observaciones').on('input', function() {
+$(document).ready(function () {
+    $('#observaciones').on('input', function () {
         // Contar los caracteres de las observaciones
         var caracteres = $(this).val().length;
-        
+
         // Si excede los 240 caracteres, deshabilita el botón
         if (caracteres > 240) {
             $('#btnRegistrarPrestamo').prop('disabled', true);

@@ -61,6 +61,7 @@ $result = $conexion->query($sql);
                         <th>Ubicación</th>
                         <th>Estatus (Inventario)</th>
                         <th>Estatus (Bien)</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,6 +78,7 @@ $result = $conexion->query($sql);
                         <td>" . $row["Ubicacion"] . "</td>
                         <td>" . $row["Estado"] . "</td>
                         <td>" . $row["EstadoBien"] . "</td>
+
                       </tr>";
                         }
                     } else {
