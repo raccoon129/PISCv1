@@ -56,7 +56,7 @@ session_start();
         ?>
 
         <h2><?php echo "$saludo, $nombreCompleto"; ?></h2>
-        <p>Selecciona una opción en el menú para continuar o refresca esta ventana (F5).</p>
+        <p>Selecciona una opción en el menú para continuar o refresca esta ventana (F5) para ver un resumen.</p>
         <br>
         <br>
         <!-- Añadir la imagen -->
