@@ -1,6 +1,6 @@
 <?php
 
-include '../../db.php'; 
+include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
 // Al principio de gestionBienes.php
@@ -36,6 +36,7 @@ $result = $conexion->query($sql);
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
     <link rel="stylesheet" href="../estiloDataTablesResponsivas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 
 <body>
@@ -44,7 +45,7 @@ $result = $conexion->query($sql);
         <h2>Gestión de bienes</h2>
         <br>
         <button class="btn btn-success" onclick="abrirFormularioNuevoBien()">Insertar Nuevo Bien</button>
-        <button class="btn btn-primary" onclick="abrirEditarBien()">Editar Bien</button>
+        <button class="btn btn-primary" onclick="abrirEditarBien()">Búsqueda y edición de Bien</button>
 
         <button class="btn btn-info" onclick="abrirExportarDatosTabla()">Exportar datos y filtrar</button>
         <br>
@@ -69,17 +70,27 @@ $result = $conexion->query($sql);
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>
-                        <td>" . $row["InventarioID"] . "</td>
-                        <td>" . $row["BienID"] . "</td>
-                        <td>" . $row["Descripcion"] . "</td>
-                        <td>" . $row["Marca"] . "</td>
-                        <td>" . $row["No_Serie"] . "</td>
-                        <td>" . $row["Modelo"] . "</td>
-                        <td>" . $row["Ubicacion"] . "</td>
-                        <td>" . $row["Estado"] . "</td>
-                        <td>" . $row["EstadoBien"] . "</td>
-
-                      </tr>";
+                                <td>" . $row["InventarioID"] . "</td>
+                                <td>" . $row["BienID"] . "</td>
+                                <td>" . $row["Descripcion"] . "</td>
+                                <td>" . $row["Marca"] . "</td>
+                                <td>" . $row["No_Serie"] . "</td>
+                                <td>" . $row["Modelo"] . "</td>
+                                <td>" . $row["Ubicacion"] . "</td>
+                                <td>" . $row["Estado"] . "</td>
+                                <td>" . $row["EstadoBien"] . "</td>
+                                <td class='text-center'>
+                                <div class='btn-group-vertical w-100'>
+                                    <button class='btn btn-info btn-sm w-100' onclick='verFoto(\"" . $row["BienID"] . "\")' title='Ver la foto del bien'>
+                                        <i class='fas fa-image'></i> Ver 
+                                    </button>
+                                    <button class='btn btn-primary btn-sm w-100' onclick='window.open(\"gestionBienesEditarBien.php?bienID=" . $row["BienID"] . "\", \"_blank\", \"width=1250,height=600\")' title='Editar los detalles del bien'>
+                                        <i class='fas fa-edit'></i> Editar
+                                    </button>
+                                </div>
+                            </td>
+                                
+                            </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='10'>No hay datos para mostrar</td></tr>";
@@ -88,6 +99,7 @@ $result = $conexion->query($sql);
                 </tbody>
             </table>
         </div>
+
         <br>
         <br>
     </div>

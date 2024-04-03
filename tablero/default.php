@@ -56,7 +56,7 @@ session_start();
         ?>
 
         <h2><?php echo "$saludo, $nombreCompleto"; ?></h2>
-        <p>Selecciona una opción en el menú para continuar o refresca esta ventana (F5).</p>
+        <p>Selecciona una opción en el menú para continuar o refresca esta ventana (F5) para ver un resumen.</p>
         <br>
         <br>
         <!-- Añadir la imagen -->
@@ -64,7 +64,7 @@ session_start();
             <img src="../img/NuevoPISC.png" alt="Imagen" class="img-fluid mx-auto d-block" style="max-width: 300px;">
         </div>
 
-        <p strong class="text-center">PISC v1.1.1</p>
+        <p strong class="text-center">PISC v1.1.2</p>
         <p strong class="text-center">Última actualización: <?php echo date('H:i:s'); ?></p>
 
     </div>

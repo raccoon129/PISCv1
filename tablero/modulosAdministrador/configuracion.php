@@ -9,6 +9,7 @@ $filePath = "../variablesConfiguracion.json";
 $data = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : [];
 $carreras = $data['carreras'] ?? [];
 $nombreLaboratorio = $data['NombreLaboratorio'] ?? '';
+$ubicaciones = $data['ubicaciones'] ?? [];
 
 // Procesar la eliminación de una carrera
 if (isset($_POST['eliminar']) && !empty($_POST['eliminarCarrera'])) {
@@ -44,6 +45,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) 
         exit;
     }
 }
+
+// Funciones para procesar las ubicaciones
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['nuevaUbicacion'])) {
+        $nuevaUbicacion = trim($_POST['nuevaUbicacion']);
+        if (!empty($nuevaUbicacion) && !in_array($nuevaUbicacion, $ubicaciones)) {
+            $ubicaciones[] = $nuevaUbicacion;
+            $data['ubicaciones'] = $ubicaciones;
+            file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+            echo "<script>alert('Ubicación añadida con éxito.'); window.location.href='configuracion.php';</script>";
+            exit;
+        }
+    } elseif (isset($_POST['eliminarUbicacion'])) {
+        $eliminarUbicacion = trim($_POST['eliminarUbicacion']);
+        if (($key = array_search($eliminarUbicacion, $ubicaciones)) !== false) {
+            unset($ubicaciones[$key]);
+            $data['ubicaciones'] = array_values($ubicaciones);
+            file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+            echo "<script>alert('Ubicación eliminada con éxito.'); window.location.href='configuracion.php';</script>";
+            exit;
+        }
+    }
+}
+
 ?>
 
 
@@ -74,8 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) 
                         <button type="submit" class="btn btn-primary mt-2">Almacenar</button>
                     </div>
                 </form>
-                <hr>
-                <h4>Variables existentes</h4>
+
+                <h5>Variables existentes</h5>
                 <ul class="list-group">
                     <?php foreach ($carreras as $carrera) : ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -89,7 +114,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) 
                 </ul>
             </div>
             <div class="col-md-6">
+                <h4>Ubicaciones de los bienes</h4>
+                <div class="alert alert-info" role="alert">
+                    Se mostrarán al momento de añadir o modificar los bienes.
+                    No afecta su eliminación o incorporación a los registros existentes.
+                </div>
+                <form action="configuracion.php" method="post">
+                    <div class="form-group">
+                        <label for="nuevaUbicacion">Añadir nueva ubicación:</label>
+                        <input type="text" class="form-control" id="nuevaUbicacion" name="nuevaUbicacion" required>
+                        <button type="submit" class="btn btn-primary mt-2">Almacenar</button>
+                    </div>
+                </form>
+
+                <h5>Ubicaciones existentes</h5>
+                <ul class="list-group">
+                    <?php if (!empty($ubicaciones)) : ?>
+                        <?php foreach ($ubicaciones as $ubicacion) : ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <?php echo htmlspecialchars($ubicacion); ?>
+                                <form action="configuracion.php" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar esta ubicación?');">
+                                    <input type="hidden" name="eliminarUbicacion" value="<?php echo htmlspecialchars($ubicacion); ?>">
+                                    <input type="submit" name="eliminar" value="Borrar" class="btn btn-danger btn-sm">
+                                </form>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <li class="list-group-item">No hay ubicaciones registradas</li>
+                    <?php endif; ?>
+                    <br>
+                </ul>
+
+                <hr> <!-- Separador para la nueva sección -->
+
                 <h4>Nombre del laboratorio</h4>
+                <div class="alert alert-danger" role="alert">
+                    Modifique esta variable bajo autorización previa.
+                    Todos los vales generados por consultar recuperarán el dato.
+                </div>
                 <form action="configuracion.php" method="post">
                     <div class="form-group">
                         <label for="nombreLaboratorio">Especifica el nombre del laboratorio que se registrarán en los vales de préstamo:</label>

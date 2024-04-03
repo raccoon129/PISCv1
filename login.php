@@ -31,7 +31,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['rol'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión - PISC</title>
+    <title>Iniciar Sesión - PISC v1.1.2</title>
     <link rel="stylesheet" type="text/css" href="stylesLogin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
@@ -67,7 +67,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['rol'])) {
             </form>
         </div>
         <div class="informacion-formulario">
-            <h2>PISC - Plataforma de control de prestamos y gestión de bienes v1.1.1</h2>
+            <h2>PISC - Plataforma de control de prestamos y gestión de bienes v1.1.2</h2>
             <p>Administra y gestiona bienes, genera préstamos con vales, y realiza su seguimiento en laboratorios o áreas específicas.</p>
             <p></p>
         </div>

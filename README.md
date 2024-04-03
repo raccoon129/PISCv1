@@ -37,7 +37,7 @@ Contribuciones al proyecto son bienvenidas. Si tiene mejoras o correcciones, por
 
 ## Licencia
 
-PISC - Préstamos ISC es un software de código abierto licenciado bajo Licencia Apache 2.0
+Pendiente
 
 ---
 

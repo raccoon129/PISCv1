@@ -65,7 +65,8 @@ $result = $stmt->get_result();
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar cambios</button>
                             <button type="button" class="btn btn-danger" onclick="eliminarUsuario(<?php echo $row["ID"]; ?>)"><i class="fas fa-trash"></i> Eliminar usuario</button>
-                            <button type="button" class="btn btn-secondary" onclick='restablecerContrasena("<?php echo $row["username"]; ?>")'><i class="fas fa-key"></i> Restablecer contraseña</button>
+                            <button type="button" class="btn btn-info" onclick='restablecerContrasena("<?php echo $row["username"]; ?>")'><i class="fas fa-key"></i> Restablecer contraseña</button>
+                            <a href="#" onclick="window.close();" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </form>
                 <?php

@@ -11,5 +11,17 @@
         "Prueba",
         "IIAS"
     ],
-    "NombreLaboratorio": "Abundio Mart\u00ednez"
+    "NombreLaboratorio": "Abundio Mart\u00ednez",
+    "ubicaciones": [
+        "Lockers",
+        "Lobby",
+        "CC1",
+        "CC2",
+        "CC3",
+        "CC4",
+        "CC5",
+        "Sun Microsystems",
+        "\u00c1rea General",
+        "Recepci\u00f3n"
+    ]
 }

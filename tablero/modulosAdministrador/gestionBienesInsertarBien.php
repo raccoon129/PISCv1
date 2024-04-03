@@ -4,52 +4,15 @@ include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario
-    $bienID = $_POST['bienID'];
-    $descripcion = $_POST['descripcion'];
-    $marca = $_POST['marca'];
-    $noSerie = $_POST['noSerie'];
-    $modelo = $_POST['modelo'];
-    $ubicacion = $_POST['ubicacion'];
-    $estado = $_POST['estado'];
-
-    // Verificar si el BienID o No_Serie ya existen
-    $stmt = $conexion->prepare("SELECT * FROM inventario WHERE BienID = ? OR No_Serie = ?");
-    $stmt->bind_param("ss", $bienID, $noSerie);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // Si ya existe un registro con el mismo BienID o No_Serie
-        echo "<script>alert('Error: El bien con este ID o número de serie ya existe. 
-        En el caso que haya dado doble click en el botón guardar, revise la tabla de bienes.'); window.close();</script>";
-    } else {
-        // Inserta en la tabla detalles_bien
-        $stmt = $conexion->prepare("INSERT INTO detalles_bien (ID, Estado) VALUES (?, 'Disponible')");
-        $stmt->bind_param("s", $bienID);
-        $stmt->execute();
-
-        // Inserta en la tabla inventario
-        $stmt = $conexion->prepare("INSERT INTO inventario (BienID, Descripcion, Marca, No_Serie, Modelo, Ubicacion, Estado) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssss", $bienID, $descripcion, $marca, $noSerie, $modelo, $ubicacion, $estado);
-        $stmt->execute();
-
-        echo "<script>alert('El bien se ha añadido correctamente. Presione enter.'); window.close(); window.opener.location.reload();</script>";
-    }
-
-    // Cierre de la conexión
-    $stmt->close();
-    $conexion->close();
-}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <title>Insertar Nuevo Bien</title>
+    <title>Insertar Nuevo Bien - Submódulo PISC</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- SweetAlert CSS -->
@@ -59,10 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container mt-3">
         <h2>Insertar Nuevo Bien</h2>
-        <form action="gestionBienesInsertarBien.php" method="post" id="formInsertarBien">
+        <form action="consultaGestionBienesInsertarBien.php" method="post" id="formInsertarBien" enctype="multipart/form-data">
             <div class="alert alert-warning" role="alert">
-                Ingrese con precisión los detalles del bien. Puede realizar correcciones en su opción correspondiente.
-                Los bienes no pueden ser eliminados debido a integridad de todos los registros.
+                Ingrese con precisión los detalles del bien. Considere los siguientes puntos:
+                <li>Puede realizar correcciones posteriores en su registro correspondiente.</li>
+                <li>Los bienes no pueden ser eliminados debido a integridad de todos los registros.</li>
+                <li>El No. De Inventario no puede ser modificado.</li>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -114,10 +79,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option>Perdido</option>
                         </select>
                     </div>
+                    <!-- Aquí irá la subida de imagenes -->
+                    <div class="form-group">
+                        <label for="imagenBien">Imagen del Bien:</label>
+                        <input type="file" class="form-control-file" id="imagenBien" name="imagenBien" onchange="previsualizarImagen(this)">
+                        <small class="form-text text-muted">Selecciona una única imágen en .jpg o .png. Se comprimen al momento de cargarse.</small>
+                        <img id="previsualizacion" src="#" alt="Previsualización de la imagen" class="img-thumbnail" style="display: none; width: 200px;" />
+                    </div>
+
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            <button type="submit" class="btn btn-primary" id="btnGuardar">
+                Guardar
+                <span id="loader" style="display:none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+
             <button type="button" class="btn btn-secondary" onclick="window.close();">Cerrar</button>
 
         </form>

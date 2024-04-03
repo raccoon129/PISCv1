@@ -65,7 +65,7 @@ verificarAcceso(['Administrador']);
                                         <td>" . htmlspecialchars($row["nombrecompleto"]) . "</td>
                                         <td>" . htmlspecialchars($row["fechacreacion"]) . "</td>
                                         <td>
-                                            <button onclick='abrirEditorUsuario(\"" . htmlspecialchars($row['username']) . "\")' class='btn btn-primary btn-sm'>Editar usuario</button>
+                                            <button onclick='abrirEditorUsuario(\"" . htmlspecialchars($row['username']) . "\")' class='btn btn-primary btn-sm'><i class='fas fa-edit'></i> Editar usuario</button>
                                     </tr>";
                             }
                         } else {

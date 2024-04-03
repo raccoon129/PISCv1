@@ -19,6 +19,10 @@ function confirmDelete(inventarioID) {
         window.location.href = "gestionBienesEliminarRegistro.php?id=" + inventarioID;
     }
 }
+function verFoto(bienID) {
+    var url = "gestionBienesVisualizarFotoBien.php?bienID=" + bienID;
+    window.open(url, "_blank", "width=1250,height=600");
+}
 
 $(document).ready(function() {
     $('#tablaBienes').DataTable({
@@ -30,4 +34,6 @@ $(document).ready(function() {
             [0, "desc"]
         ] // Configuración para ordenar los datos de forma descendente en la carga inicial
     });
+
+    
 });
