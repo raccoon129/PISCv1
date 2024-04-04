@@ -8,15 +8,28 @@ function procesarImagen($rutaTemporal, $bienID)
 {
     echo "LOGS - Comenzando procesamiento de la imagen para el BienID: $bienID <br>";
     
+
     if (!$rutaTemporal) {
         echo "Error: No se recibió ninguna ruta temporal.<br>";
         return false;
     }
 
-    // Ruta de destino con BienID como nombre de archivo
+    // Definir la ruta de destino y extensiones permitidas
     $extension = strtolower(pathinfo($_FILES['imagenBien']['name'], PATHINFO_EXTENSION));
     $rutaDestino = "../../tablero/imgBienes/" . $bienID . '.' . $extension;
-    echo "La ruta de destino es: $rutaDestino <br>";
+    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+    // Verificar la extensión de la imagen
+    if (!in_array($extension, $allowedExtensions)) {
+        return "Error: Tipo de archivo no permitido.";
+    }
+
+    if($allowedExtensions == 'png'){
+        $imagenOriginal = imagecreatefrompng($rutaTemporal);
+        // Preservar transparencia en PNG
+        imagealphablending($imagenOriginal, true);
+        imagesavealpha($imagenOriginal, true);
+    }
 
     // Obtener las dimensiones de la imagen
     if (!$tamaño = getimagesize($rutaTemporal)) {
@@ -32,6 +45,7 @@ function procesarImagen($rutaTemporal, $bienID)
     $calidadImagen = 75; // Calidad de JPEG
 
     // Redimensionar imagen si es necesario
+    
     if ($anchoOriginal * $altoOriginal > $maximoPixeles) {
         echo "Redimensionando imagen...<br>";
         $ratio = $anchoOriginal / $altoOriginal;

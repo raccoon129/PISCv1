@@ -5,6 +5,7 @@ include('../control_acceso.php');
 verificarAcceso(['Prestamista']);
 // Variables para los filtros
 $estadoPrestamo = isset($_POST['estadoPrestamo']) ? $_POST['estadoPrestamo'] : '';
+$accion = isset($_POST['accion']) ? $_POST['accion'] : '';  // Define la variable $accion
 
 // Preparar la consulta base
 $sql = "SELECT v.NumeroVale, v.FechaHoraPrestamo, d.Nombre AS Deudor, d.Rol, 
@@ -32,28 +33,102 @@ $sql .= " ORDER BY v.FechaHoraPrestamo DESC";
 $resultados = $conexion->query($sql);
 
 // Si se solicita exportar
-if (isset($_POST['accion']) && $_POST['accion'] === 'exportar' && $resultados->num_rows > 0) {
-    // Generar una cadena con la fecha y hora actuales
-    $fechaHoraActual = date('Ymd_His'); // Formato de ejemplo: 20230308_143501
+if ($accion === 'exportar' && $resultados->num_rows > 0) {
+    $formato = isset($_POST['formato']) ? $_POST['formato'] : '';
 
-    header('Content-Type: text/csv; charset=utf-8');
-    // Incluir la fecha y hora en el nombre del archivo
-    header("Content-Disposition: attachment; filename=\"historial_prestamos_{$fechaHoraActual}.csv\"");
-    $salida = fopen('php://output', 'w');
+    if ($formato === 'CSV') {
+        // Generar una cadena con la fecha y hora actuales
+        $fechaHoraActual = date('Ymd_His'); // Formato de ejemplo: 20230308_143501
 
-    // Escribir la BOM de UTF-8 al inicio del archivo
-    fprintf($salida, chr(0xEF).chr(0xBB).chr(0xBF));
+        header('Content-Type: text/csv; charset=utf-8');
+        // Incluir la fecha y hora en el nombre del archivo
+        header("Content-Disposition: attachment; filename=\"historial_prestamos_{$fechaHoraActual}.csv\"");
+        $salida = fopen('php://output', 'w');
 
-    // Las cabeceras del CSV
-    fputcsv($salida, array('NumeroVale', 'FechaHoraPrestamo', 'Deudor', 'Rol', 'DescripcionBienes', 'FechaDevolucionPrevista', 'FechaDevolucionReal', 'EstadoPrestamo'), ';');
+        // Escribir la BOM de UTF-8 al inicio del archivo
+        fprintf($salida, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-    // Recorrer los resultados y escribirlos en el archivo CSV
-    while ($fila = $resultados->fetch_assoc()) {
-        fputcsv($salida, array($fila['NumeroVale'], $fila['FechaHoraPrestamo'], $fila['Deudor'], $fila['Rol'], $fila['DescripcionBienes'], $fila['FechaDevolucionPrevista'], $fila['FechaDevolucionReal'] ? $fila['FechaDevolucionReal'] : 'No se ha devuelto', $fila['EstadoPrestamo']), ';');
+        // Las cabeceras del CSV
+        fputcsv($salida, array('NumeroVale', 'FechaHoraPrestamo', 'Deudor', 'Rol', 'DescripcionBienes', 'FechaDevolucionPrevista', 'FechaDevolucionReal', 'EstadoPrestamo'), ';');
+
+        // Recorrer los resultados y escribirlos en el archivo CSV
+        while ($fila = $resultados->fetch_assoc()) {
+            fputcsv($salida, array($fila['NumeroVale'], $fila['FechaHoraPrestamo'], $fila['Deudor'], $fila['Rol'], $fila['DescripcionBienes'], $fila['FechaDevolucionPrevista'], $fila['FechaDevolucionReal'] ? $fila['FechaDevolucionReal'] : 'No se ha devuelto', $fila['EstadoPrestamo']), ';');
+        }
+    } elseif ($formato === 'PDF') {
+        // Implementación para generar el PDF
+        require_once('../../vendor/autoload.php');
+
+        $configuracion = json_decode(file_get_contents('../variablesConfiguracion.json'), true);
+        $nombreLaboratorio = $configuracion['NombreLaboratorio'];
+
+        // Generar una cadena con la fecha y hora actuales para el nombre del archivo
+        $fechaHoraActual = date('Ymd_His');
+        $fechaHoraLegible = date('d/m/Y H:i:s');
+
+        $pdf = new FPDF('L');
+        $pdf->SetMargins(10, 10, 10); // Margen izquierdo, superior y derecho de 10 mm
+        $pdf->AddPage();
+
+        $pdf->Image('../../img/transparenteMediano.png', 10, 6, 30);
+
+        // Configurar fuente para el título y la fecha
+        $pdf->SetFont('Arial', 'B', 22);
+        $pdf->SetX(152.5);
+        $pdf->Cell(0, 10, utf8_decode('Reporte de Historial de Préstamos'), 0, 1);
+        $pdf->Ln(2);
+
+        // Configurar fuente para la información del laboratorio y fecha
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetX(10);
+        $pdf->Cell(0, 10, utf8_decode("Laboratorio: $nombreLaboratorio"), 0, 1);
+        $pdf->SetX(10);
+        $pdf->Cell(0, 10, utf8_decode("Generado el: $fechaHoraLegible"), 0, 1);
+
+        $pdf->Ln(2); // espacio antes de la tabla
+
+        // Encabezados de columna
+        $pdf->SetFont('Arial', 'B', 8);
+        $header = array('No.Vale', 'Fecha del Préstamo', 'Nombre del deudor', 'Rol', 'Descripcion de los bienes', 'Devolución prevista', 'Devolución real', 'Estado del préstamo');
+        $widths = array(20, 30, 30, 20, 80, 30, 30, 30); // Aumentamos el ancho de DescripcionBienes
+        foreach ($header as $i => $col) {
+            $pdf->Cell($widths[$i], 7, utf8_decode($col), 1, 0, 'C');
+        }
+        $pdf->Ln();
+
+        // Datos de la tabla
+        $pdf->SetFont('Arial', '', 8);
+        function cortarTexto($texto, $maxLongitud = 18)
+        {
+            if (strlen(utf8_decode($texto)) > $maxLongitud) {
+                return substr(utf8_decode($texto), 0, $maxLongitud - 3) . '...';
+            } else {
+                return utf8_decode($texto);
+            }
+        }
+
+        while ($fila = $resultados->fetch_assoc()) {
+            $pdf->Cell($widths[0], 6, cortarTexto($fila['NumeroVale'], 15), 1);
+            $pdf->Cell($widths[1], 6, cortarTexto($fila['FechaHoraPrestamo'], 20), 1);
+            $pdf->Cell($widths[2], 6, cortarTexto($fila['Deudor']), 1);
+            $pdf->Cell($widths[3], 6, cortarTexto($fila['Rol']), 1);
+            $pdf->Cell($widths[4], 6, cortarTexto($fila['DescripcionBienes'], 61), 1); // DescripcionBienes puede ser más largo
+            $pdf->Cell($widths[5], 6, cortarTexto($fila['FechaDevolucionPrevista']), 1);
+            $pdf->Cell($widths[6], 6, cortarTexto($fila['FechaDevolucionReal'], 30 ? $fila['FechaDevolucionReal'] : 'No se ha devuelto'),  1);
+            $pdf->Cell($widths[7], 6, cortarTexto($fila['EstadoPrestamo'], 30), 1);
+            $pdf->Ln();
+        }
+
+        // Número de página en la parte inferior
+        $pdf->AliasNbPages();
+        $pdf->SetFont('Arial', 'I', 8);
+        $pdf->SetY(111);
+        $pdf->Cell(0, 10, utf8_decode('Página: ') . $pdf->PageNo() . '/{nb}', 0, 0, 'C');
+
+        // Salida del PDF al navegador
+        $pdf->Output('I', "historial_prestamos_{$fechaHoraActual}.pdf");
+        exit;
     }
-    
-    fclose($salida);
-    exit;
 }
 
 $conexion->close();
@@ -75,7 +150,7 @@ $conexion->close();
         <h2>Exportar Historial de Préstamos</h2>
 
         <div class="alert alert-primary" role="alert">
-        Para una correcta visualización del archivo exportado, considere emplear Apache OpenOffice. Puede obtenerlo gratis <a href="https://www.openoffice.org/es/descargar/" class="alert-link">dando click aquí</a>.
+            Para una correcta visualización del CSV exportado, considere emplear Apache OpenOffice. Puede obtenerlo sin compromiso dando clic <a href="https://www.openoffice.org/es/descargar/" class="alert-link">aquí</a>.
         </div>
         <form method="post">
             <!-- Selector de estado del préstamo -->
@@ -87,7 +162,17 @@ $conexion->close();
                     <option value="finalizado">Préstamos Finalizados</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-success" name="accion" value="exportar">Exportar a CSV</button>
+
+            <!-- Selector de formato -->
+            <div class="form-group">
+                <label for="formato">Formato:</label>
+                <select class="form-control" id="formato" name="formato">
+                    <option value="CSV">CSV</option>
+                    <option value="PDF">PDF</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success" name="accion" value="exportar">Exportar</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

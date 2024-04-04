@@ -54,12 +54,7 @@ if ($result->num_rows > 0) {
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        body {
-            background-color: rgba(255, 255, 255, 0);
-            /* Cambia el color de fondo a transparente*/
-        }
-    </style>
+
 </head>
 
 <body>

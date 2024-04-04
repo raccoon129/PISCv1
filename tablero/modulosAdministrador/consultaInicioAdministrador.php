@@ -16,16 +16,14 @@ $resultadoSemana = mysqli_fetch_row($totalSemana)[0];
 $resultadoMes = mysqli_fetch_row($totalMes)[0];
 
 // Consulta para obtener los bienes prestados recientemente
-$consultaRecientes = "SELECT inv.Descripcion AS NombreDelBien, vale.FechaHoraPrestamo, deu.Nombre AS Persona, deu.Rol 
-FROM vale
+$consultaRecientes = "SELECT inv.Descripcion AS NombreDelBien, vale.FechaHoraPrestamo, deu.Nombre 
+AS Persona, deu.Rol FROM vale
 INNER JOIN detalle_vale ON vale.NumeroVale = detalle_vale.NumeroVale
 INNER JOIN detalles_bien ON detalle_vale.Bien_ID = detalles_bien.ID
 INNER JOIN inventario inv ON detalles_bien.ID = inv.BienID
 INNER JOIN deudor deu ON vale.Deudor_ID = deu.ID
 WHERE DATE(vale.FechaHoraPrestamo) = '$fechaHoy'
 ORDER BY vale.FechaHoraPrestamo DESC";
-
-
 
 
 $resultadoRecientes = mysqli_query($conexion, $consultaRecientes);
