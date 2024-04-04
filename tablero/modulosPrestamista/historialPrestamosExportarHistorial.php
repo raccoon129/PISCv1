@@ -2,7 +2,7 @@
 
 include('../../db.php');
 include('../control_acceso.php');
-verificarAcceso(['Prestamista']);
+
 // Variables para los filtros
 $estadoPrestamo = isset($_POST['estadoPrestamo']) ? $_POST['estadoPrestamo'] : '';
 $accion = isset($_POST['accion']) ? $_POST['accion'] : '';  // Define la variable $accion

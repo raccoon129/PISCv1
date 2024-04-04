@@ -43,3 +43,8 @@ function eliminarPrestamoFormulario(numeroVale) {
     var url = 'admonHistorialPrestamosEliminarPrestamo.php?numeroVale=' + numeroVale;
     window.open(url, 'Detalles del Préstamo', 'width=700,height=400');
 }
+
+function abrirExportarHistorial(){
+    var url = "../modulosPrestamista/historialPrestamosExportarHistorial.php";
+    window.open(url, "_blank", "width=600,height=400")
+}

@@ -61,7 +61,7 @@ if ($result->num_rows > 0) {
     <div class="container mt-5">
         <h2>Historial de préstamos</h2>
         
-        <button class="btn btn-info" onclick="abrirExportarHistorialCSV()">Exportar historial a CSV</button>
+        <button class="btn btn-info" onclick="abrirExportarHistorialCSV()">Exportar historial</button>
         <br>
         <table id="prestamosActivos" class="display" style="width:100%">
             <thead>
