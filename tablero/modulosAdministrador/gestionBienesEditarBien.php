@@ -68,7 +68,6 @@ if (file_exists($jsonFilePath)) {
     <div class="container mt-3">
         <h2>Edición de Bienes</h2>
         <br>
-        
         <div class="accordion" id="accordionExample">
             <!-- Panel de búsqueda -->
             <div class="accordion-item">
@@ -96,7 +95,9 @@ if (file_exists($jsonFilePath)) {
             <!-- Panel de edición -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button <?php echo $encontrado ? '' : 'collapsed'; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="<?php echo $encontrado ? 'true' : 'false'; ?>" aria-controls="collapseTwo">
+                    <button class="accordion-button <?php echo $encontrado ? '' : 'collapsed'; ?>" type="button" 
+                            data-bs-toggle="<?php echo $encontrado ? 'collapse' : ''; ?>" data-bs-target="#collapseTwo" 
+                            aria-expanded="<?php echo $encontrado ? 'true' : 'false'; ?>" aria-controls="collapseTwo">
                         Editar campos del bien
                     </button>
                 </h2>
@@ -193,7 +194,6 @@ if (file_exists($jsonFilePath)) {
                                         <span id="loader" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
                                     </button>
                                 </form>
-
 
                             </div>
                         </div>
