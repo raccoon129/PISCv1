@@ -34,6 +34,9 @@ try {
         case 'Externo':
             $idDeudor = "EXT" . $numeroNuevoVale;
             break;
+        case 'Administrativo':
+            $idDeudor = "ADM" . $numeroNuevoVale;
+            break;
     }
 
     // Insertar en la tabla deudor (solo una vez, ya que el deudor es el mismo para todos los bienes)
