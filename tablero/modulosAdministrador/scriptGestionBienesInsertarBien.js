@@ -1,78 +1,130 @@
-const inputs = document.querySelectorAll('#formInsertarBien input[type="text"], #formInsertarBien select');
-const btnGuardar = document.getElementById('btnGuardar');
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formInsertarBien');
+    const bienIDInput = document.getElementById('bienID');
+    const imagenBienInput = document.getElementById('imagenBien');
+    const bienIDIcon = document.getElementById('bienIDIcon');
+    const btnGuardar = document.getElementById('btnGuardar');
+    const loader = document.getElementById('loader');  // Asegúrate de tener un elemento con id="loader" en tu HTML
+    const inputs = document.querySelectorAll('#formInsertarBien input[type="text"], #formInsertarBien select');
+    const ubicacionSelect = document.getElementById('ubicacion');
 
-function verificarCampos() {
-    let todosLlenos = true;
-    inputs.forEach(input => {
-        if (input.value.trim() === '') {
-            todosLlenos = false;
-        }
+    bienIDInput.addEventListener('input', function() {
+        verificarBienIDExistente(this.value.trim());
     });
 
-    if (todosLlenos) {
-        btnGuardar.disabled = false;
-    } else {
-        btnGuardar.disabled = true;
-    }
-}
+    function verificarBienIDExistente(bienID) {
+        if (bienID === '') {
+            bienIDIcon.innerHTML = '';
+            console.log('BienID está vacío');
+            btnGuardar.disabled = true;
+            return;
+        }
 
-inputs.forEach(input => input.addEventListener('input', verificarCampos));
-
-// Inicialmente verificar los campos en caso de que el navegador rellene automáticamente los campos.
-verificarCampos();
-
-document.getElementById('formInsertarBien').addEventListener('submit', function (event) {
-    var ubicacion = document.getElementById('ubicacion').value;
-    if (ubicacion === "...") {
-        alert("Selecciona una ubicación del bien.");
-        event.preventDefault(); // Prevenir el envío del formulario
-    }
-});
-
-// Aqui empieza otra parte
-document.getElementById('formInsertarBien').addEventListener('submit', function (event) {
-    const bienID = document.getElementById('bienID').value.trim();
-    const descripcion = document.getElementById('descripcion').value.trim();
-    const marca = document.getElementById('marca').value.trim();
-    const noSerie = document.getElementById('noSerie').value.trim();
-    const modelo = document.getElementById('modelo').value.trim();
-    const imagenBien = document.getElementById('imagenBien').value; // Verificar si hay un archivo seleccionado
-
-    if (!bienID || !descripcion || !marca || !noSerie || !modelo) {
-        event.preventDefault(); // Prevenir el envío del formulario si hay errores
-        alert('Por favor, rellene todos los campos.');
-    } else {
-        // Mostrar el loader
-        document.getElementById('loader').style.display = 'inline-block';
-        document.getElementById('btnGuardar').disabled = true; // Opcional: deshabilitar el botón para evitar múltiples envíos
-    }
-
-    var formData = new FormData(this);
-    formData.append('bienID', bienID);
-    formData.append('descripcion', descripcion);
-    formData.append('marca', marca);
-    formData.append('noSerie', noSerie);
-    formData.append('modelo', modelo);
-    formData.append('imagenBien', imagenBien);
-
-    fetch('procesarImagenes.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            }
-            throw new Error('Algo salió mal al procesar la imagen.');
+        fetch('consultaGestionBienesInsertarBien.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `accion=verificarBienID&bienID=${bienID}`
         })
+        .then(response => response.json())
         .then(data => {
-            console.log(data);
-            alert('El bien y la imagen se han guardado correctamente.');
-            window.opener.location.reload(); // Recargar la página padre
-            window.close(); // Cerrar la ventana actual
+            console.log('BienID existe:', data.existe);
+            if (data.existe) {
+                bienIDIcon.innerHTML = '<i class="fas fa-times text-danger"></i>';
+                btnGuardar.disabled = true;
+            } else {
+                bienIDIcon.innerHTML = '<i class="fas fa-check text-success"></i>';
+                verificarCampos();
+            }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Ocurrió un error al guardar la imagen.');
         });
+    }
+
+    function verificarCampos() {
+        let todosLlenos = Array.from(inputs).every(input => input.value.trim() !== '');
+        let ubicacionValida = ubicacionSelect.value !== "";
+        btnGuardar.disabled = !todosLlenos || !ubicacionValida || bienIDIcon.innerHTML.includes('fa-times');
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            input.value = input.value.trim(); // Elimina espacios al inicio y al final en cada entrada
+            verificarCampos();
+        });
+    });
+    ubicacionSelect.addEventListener('change', verificarCampos);
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        btnGuardar.disabled = true;
+        loader.style.display = 'inline-block';  // Muestra el loader
+
+        if (!ubicacionSelect.value) {
+            alert('Seleccione una ubicación válida.');
+            btnGuardar.disabled = false;
+            loader.style.display = 'none';  // Oculta el loader
+            return;
+        }
+
+        const formData = new FormData(form);
+
+        if (imagenBienInput.files.length > 0) {
+            const formDataImagen = new FormData();
+            formDataImagen.append('imagenBien', imagenBienInput.files[0]);
+            formDataImagen.append('bienID', bienIDInput.value.trim());
+
+            fetch('procesarImagenes.php', {
+                method: 'POST',
+                body: formDataImagen
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Imagen procesada correctamente');
+                    procesarFormularioCompleto(formData);
+                } else {
+                    console.error('Error procesando la imagen:', data.message);
+                    alert('Error procesando la imagen: ' + data.message);
+                    btnGuardar.disabled = false;
+                    loader.style.display = 'none';  // Oculta el loader
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error procesando la imagen.');
+                btnGuardar.disabled = false;
+                loader.style.display = 'none';  // Oculta el loader
+            });
+        } else {
+            procesarFormularioCompleto(formData);
+        }
+    });
+
+    function procesarFormularioCompleto(formData) {
+        fetch('consultaGestionBienesInsertarBien.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Se han insertado los datos' + (imagenBienInput.files.length > 0 ? ' y procesado la imagen' : '') + ' de forma correcta.');
+                window.opener.location.reload();
+                window.close();
+            } else {
+                alert('Ocurrió un error al insertar los datos.');
+                btnGuardar.disabled = false;
+                loader.style.display = 'none';  // Oculta el loader
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error al insertar los datos.');
+            btnGuardar.disabled = false;
+            loader.style.display = 'none';  // Oculta el loader
+        });
+    }
+
+    verificarCampos();
 });

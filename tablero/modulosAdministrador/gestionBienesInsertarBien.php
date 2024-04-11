@@ -3,6 +3,9 @@
 include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
+// Leer las ubicaciones desde el archivo JSON
+$configuracion = json_decode(file_get_contents('../variablesConfiguracion.json'), true);
+$ubicaciones = $configuracion['ubicaciones'];
 
 ?>
 
@@ -17,6 +20,8 @@ verificarAcceso(['Administrador']);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
 </head>
 
 <body>
@@ -33,8 +38,14 @@ verificarAcceso(['Administrador']);
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="bienID">No. De Inventario/BienID:</label>
-                        <input type="text" class="form-control" id="bienID" name="bienID" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="bienID" name="bienID" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="bienIDIcon"></span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="descripcion">Descripción:</label>
                         <input type="text" class="form-control" id="descripcion" name="descripcion" required>
@@ -56,18 +67,10 @@ verificarAcceso(['Administrador']);
                     <div class="form-group">
                         <label for="ubicacion">Ubicación:</label>
                         <select class="form-control" id="ubicacion" name="ubicacion" required>
-                            <option>...</option>
-                            <option>Lockers</option>
-                            <option>CC1</option>
-                            <option>CC2</option>
-                            <option>CC3</option>
-                            <option>CC4</option>
-                            <option>CC5</option>
-                            <option>Sun Microsystems</option>
-                            <option>Área General</option>
-                            <option>Recepción</option>
-                            <option>Lobby</option>
-                            <option>Otro</option>
+                            <option value="">Seleccione una opción</option>
+                            <?php foreach ($ubicaciones as $ubicacion) : ?>
+                                <option value="<?= htmlspecialchars($ubicacion) ?>"><?= htmlspecialchars($ubicacion) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
