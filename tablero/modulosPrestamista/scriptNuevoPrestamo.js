@@ -3,23 +3,37 @@ $(document).ready(function () {
     //Para evitar que se introduzcan espacios en blanco
     $('#btnRegistrarPrestamo').click(function (event) {
         var isValid = true;
-
-        // Lista de campos a validar
-        var campos = ['#nombreDeudor', '#area', '#unidad', '#responsable', '#descripcionBien'];
-
+        var campos = ['#nombreDeudor', '#area', '#unidad', '#responsable'];
+    
         campos.forEach(function (campo) {
             var valor = $(campo).val().trim();
             if (!valor) {
                 isValid = false;
                 alert('Por favor, rellene todos los campos. Los espacios en blanco no son válidos.');
                 $(campo).focus();
-                return false; // Sale del ciclo forEach
+                event.preventDefault(); // Prevenir la acción de submit si hay un campo no válido
+                return; // Salir de esta iteración del ciclo forEach
             }
         });
-
-        // Si algún campo no es válido, previene la acción submit
+    
         if (!isValid) {
-            event.preventDefault();
+            event.preventDefault(); // Prevenir la acción de submit si hay un campo no válido
+        }
+    });
+    
+
+    //Este es el contador de caracteres
+
+    $('#observaciones').on('input', function () {
+        var caracteres = $(this).val().length;
+        $('#contadorCaracteres').text(caracteres); // Actualiza el contador
+
+        // Si excede los 240 caracteres, muestra un aviso 
+        if (caracteres > 255) {
+            alert('El texto no debe exceder los 240 caracteres.');
+            // Truncar el valor a 255 caracteres
+            $(this).val($(this).val().substring(0, 240));
+            $('#contadorCaracteres').text(240);
         }
     });
 
@@ -53,7 +67,7 @@ $(document).ready(function () {
 
 
 
-
+    // Animacion cuando se escribe en el input de descripcionBien
     $("#descripcionBien").keyup(function () {
         var descripcion = $(this).val();
         if (descripcion != '') {
@@ -64,13 +78,14 @@ $(document).ready(function () {
                     descripcion: descripcion
                 },
                 success: function (data) {
-                    $('#listaBienes').fadeIn().html(data);
+                    $('#listaBienes').html(data).slideDown('slow'); // Usa slideDown para mostrar los resultados con animación
                 }
             });
         } else {
-            $('#listaBienes').fadeOut().html("");
+            $('#listaBienes').slideUp('slow'); // Usa slideUp para ocultar los resultados con animación
         }
     });
+    
 
     $(document).on('click', '.bien-item', function () {
         tempDescripcion = $(this).data('descripcion');

@@ -46,6 +46,13 @@ $carreras = $data['carreras'];
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Enlace a jQuery para la búsqueda dinámica -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        .bien-item {
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -155,7 +162,9 @@ $carreras = $data['carreras'];
             <div class="form-group">
                 <label>Observaciones:</label>
                 <textarea class="form-control" id="observaciones" name="observaciones" rows="3" cols="50"></textarea>
+                <small>Caracteres: <span id="contadorCaracteres">0</span>/240</small>
             </div>
+
             <button id="btnRegistrarPrestamo" type="submit" class="btn btn-primary">Registrar Préstamo</button>
         </form>
     </div>

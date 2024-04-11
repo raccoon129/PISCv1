@@ -1,7 +1,7 @@
 <?php
 include '../../db.php';
 include('../control_acceso.php');
-verificarAcceso(['Administrador']);
+verificarAcceso();
 
 $bienID = isset($_GET['bienID']) ? $_GET['bienID'] : '';
 

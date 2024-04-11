@@ -34,6 +34,7 @@ verificarAcceso(['Prestamista']);
         <nav class="menu">
             <ul>
                 <li><a href="#inicio" onclick="cargarModulo('modulosPrestamista/inicioPrestamista.php', '#inicio'); return false;"><i class="fas fa-house"></i> Inicio</a></li>
+                <li><a href="#catalogoBienes" onclick="cargarModulo('modulosPrestamista/catalogoBienes.php', '#catalogoBienes'); return false;"><i class="fas fa-box"></i> Catálogo de bienes</a></li>
                 <li><a href="#nuevoPrestamo" onclick="cargarModulo('modulosPrestamista/nuevoPrestamo.php', '#nuevoPrestamo'); return false;"><i class="fas fa-edit"></i> Nuevo Préstamo</a></li>
                 <li><a href="#registrarDevolucion" onclick="cargarModulo('modulosPrestamista/registrarDevolucion.php', '#registrarDevolucion'); return false;"><i class="fas fa-arrow-up-right-from-square"></i> Registrar devolución</a></li>
                 <li><a href="#historialPrestamos" onclick="cargarModulo('modulosPrestamista/historialPrestamos.php', '#historialPrestamos'); return false;"><i class="fas fa-history"></i> Historial de préstamos</a></li>
