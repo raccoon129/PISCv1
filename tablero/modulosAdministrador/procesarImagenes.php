@@ -6,8 +6,12 @@ verificarAcceso(['Administrador']);
 header('Content-Type: application/json');
 
 function procesarImagen($archivo, $bienID) {
-    if ($archivo['error'] != UPLOAD_ERR_OK) {
-        return ["success" => false, "message" => "Error al cargar el archivo."];
+    // Registrar la iniciación del procesamiento
+    error_log("Iniciando procesamiento de imagen para bienID: $bienID");
+
+    if ($archivo['error'] !== UPLOAD_ERR_OK) {
+        error_log("Error al cargar el archivo: " . $archivo['error']); // Log del error
+        return ["success" => false, "message" => "Error al cargar el archivo. Código de error: " . $archivo['error']];
     }
 
     $rutaTemporal = $archivo['tmp_name'];
@@ -16,14 +20,15 @@ function procesarImagen($archivo, $bienID) {
     $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     if (!in_array($extension, $allowedExtensions)) {
-        return ["success" => false, "message" => "Tipo de archivo no permitido."];
+        return ["success" => false, "message" => "Tipo de archivo no permitido: $extension"];
     }
 
-    list($anchoOriginal, $altoOriginal) = getimagesize($rutaTemporal);
-    if (!$anchoOriginal || !$altoOriginal) {
+    $imageSize = getimagesize($rutaTemporal);
+    if (!$imageSize) {
         return ["success" => false, "message" => "No se pudo obtener el tamaño de la imagen."];
     }
 
+    list($anchoOriginal, $altoOriginal) = $imageSize;
     $maximoPixeles = 2 * 1000000; // 2 Megapíxeles
     $calidadImagen = 75; // Calidad de JPEG
 
@@ -33,24 +38,24 @@ function procesarImagen($archivo, $bienID) {
         $nuevoAlto = $maximoPixeles / $nuevoAncho;
 
         $imagenRedimensionada = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-        $imagenOriginal = $extension == 'png' ? imagecreatefrompng($rutaTemporal) : imagecreatefromjpeg($rutaTemporal);
+        $imagenOriginal = $extension === 'png' ? imagecreatefrompng($rutaTemporal) : imagecreatefromjpeg($rutaTemporal);
         imagecopyresampled($imagenRedimensionada, $imagenOriginal, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $anchoOriginal, $altoOriginal);
 
-        if ($extension == 'png') {
-            $resultado = imagepng($imagenRedimensionada, $rutaDestino);
-        } else {
-            $resultado = imagejpeg($imagenRedimensionada, $rutaDestino, $calidadImagen);
+        if (!$imagenOriginal || !$imagenRedimensionada) {
+            error_log("Error al crear recursos de imagen para redimensionamiento");
+            return ["success" => false, "message" => "Error al procesar la imagen."];
         }
+
+        $saveFunction = $extension === 'png' ? 'imagepng' : 'imagejpeg';
+        $saveResult = $saveFunction($imagenRedimensionada, $rutaDestino, $calidadImagen);
 
         imagedestroy($imagenOriginal);
         imagedestroy($imagenRedimensionada);
 
-        if (!$resultado) {
-            // Si no se puede guardar la imagen redimensionada, intentar guardar la original
+        if (!$saveResult) {
+            error_log("Fallo al guardar la imagen redimensionada, intentando guardar la original");
             if (!move_uploaded_file($rutaTemporal, $rutaDestino)) {
                 return ["success" => false, "message" => "No se pudo guardar la imagen original en el destino."];
-            } else {
-                return ["success" => true, "message" => "Imagen guardada en tamaño original debido a un problema al redimensionar."];
             }
         }
     } else {
@@ -73,6 +78,7 @@ function actualizarJson($bienID, $rutaImagen) {
     $fotosBienes[$bienID] = $rutaImagen;
 
     if (!file_put_contents($jsonFilePath, json_encode($fotosBienes, JSON_PRETTY_PRINT))) {
+        error_log("Fallo al actualizar el archivo JSON");
         return false;
     }
 
