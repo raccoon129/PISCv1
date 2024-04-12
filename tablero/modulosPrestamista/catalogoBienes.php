@@ -3,7 +3,9 @@ include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Prestamista']);
 
-$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado AS EstadoBien FROM inventario i JOIN detalles_bien db ON i.BienID = db.ID ORDER BY i.InventarioID DESC";
+$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, 
+db.Estado AS EstadoBien FROM inventario i JOIN detalles_bien db 
+ON i.BienID = db.ID ORDER BY i.InventarioID DESC";
 $result = $conexion->query($sql);
 ?>
 
