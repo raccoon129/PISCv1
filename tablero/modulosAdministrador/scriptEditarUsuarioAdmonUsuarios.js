@@ -26,7 +26,8 @@ function eliminarUsuario(id) {
             },
             success: function(response) {
                 alert(response);
-                location.reload(); // Recarga la página para reflejar los cambios
+                window.opener.location.reload();
+                window.close();
             },
             error: function() {
                 alert('Error al eliminar el usuario.');

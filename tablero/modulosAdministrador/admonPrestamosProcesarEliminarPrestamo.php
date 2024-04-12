@@ -38,11 +38,11 @@ try {
 
     // Si todo sale bien (ojalá que si en la mayoría de los casos) confirmar los cambios con el commit.
     $conexion->commit();
-    echo "<script>alert('El préstamo ha sido eliminado exitosamente.'); window.close();</script>";
+    echo "<script>alert('El préstamo ha sido eliminado exitosamente.'); window.opener.location.reload(); window.close();</script>";
 } catch (Exception $e) {
     // En caso de error, revierte todos los cambios y acá no sucedió nada.
     $conexion->rollback();
-    echo "<script>alert('Hubo un problema al eliminar el préstamo: " . $e->getMessage() . "'); window.close();</script>";
+    echo "<script>alert('Hubo un problema al eliminar el préstamo: " . $e->getMessage() . "'); window.opener.location.reload(); window.close();</script>";
 }
 
 $conexion->close();

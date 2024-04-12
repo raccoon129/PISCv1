@@ -30,10 +30,10 @@ if (isset($_POST['numeroVale'], $_POST['usuarioConfirmaDevolucion']) && is_numer
 
     //  SweetAlert basado en el resultado
     if ($success) {
-        $script = "<script>Swal.fire('Éxito', 'La devolución ha sido registrada exitosamente.', 'success').then((result) => { window.close(); });</script>";
+        $script = "<script>Swal.fire('Éxito', 'La devolución ha sido registrada exitosamente.', 'success').then((result) => { window.opener.location.reload(); window.close(); });</script>";
     } else {
-        $script = "<script>Swal.fire('Error', 'No se pudo registrar la devolución. Intente de nuevo.', 'error').then((result) => { window.close(); });</script>";
-    }
+        $script = "<script>Swal.fire('Error', 'No se pudo registrar la devolución. Intente de nuevo.', 'error').then((result) => { window.opener.location.reload(); window.close(); });</script>";
+    }    
 
     // Cerrar conexiones
     $stmtVale->close();

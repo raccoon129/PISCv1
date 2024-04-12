@@ -7,11 +7,9 @@ $accion = $_POST['accion'] ?? ''; // Usando el operador de fusión de null
 function alerta($message) {
     header('Content-Type: text/html; charset=utf-8');
     $message = addslashes($message);
-    echo "<script type='text/javascript'>alert('$message'); window.close(); window.opener.location.reload();</script>";
+    echo "<script type='text/javascript'>alert('$message'); window.opener.location.reload(); window.close(); </script>";
     exit; // Asegura que no se ejecute más código PHP después de mostrar la alerta
 }
-
-
 
 switch ($accion) {
     case 'modificar_usuario':
@@ -52,7 +50,7 @@ switch ($accion) {
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {
-            echo "Usuario eliminado exitosamente";
+            echo 'Usuario eliminado exitosamente';
         } else {
             echo "Error eliminando el usuario. Error: $stmt->error";
         }
@@ -82,6 +80,7 @@ switch ($accion) {
         
                 if ($stmt->execute()) {
                     alerta("Usuario creado exitosamente");
+                }else{
                     echo "Error al crear el usuario. Error $stmt->error";
                 }
             }

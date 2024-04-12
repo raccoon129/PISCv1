@@ -1,5 +1,5 @@
 <?php
-include '../../db.php'; 
+include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
 // consulta para obtener la información necesaria de los préstamos activos
@@ -86,15 +86,14 @@ if ($result->num_rows > 0) {
                             <td><?= $prestamo['FechaDevolucionReal'] ? htmlspecialchars($prestamo['FechaDevolucionReal']) : 'No se ha devuelto' ?></td>
                             <td><?= htmlspecialchars($prestamo['EstadoPrestamo']) ?></td>
                             <td>
-                                <form method="post" style="display: inline;">
+                                <form method="post" class="d-inline mb-0">
                                     <input type="hidden" name="noNuevoVale" value="<?= $prestamo['NumeroVale'] ?>">
-                                    <button onclick="abrirGenerarVale('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-success"><i class="fas fa-file-alt"></i> Recuperar Vale</button>
-                                    <button onclick="eliminarPrestamoFormulario(<?= $prestamo['NumeroVale'] ?>);" class="btn btn-danger"><i class="fas fa-trash"></i> Eliminar registro</button>
+                                    <button onclick="abrirGenerarVale('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-success btn-block mb-1"><i class="fas fa-file-alt"></i> Recuperar Vale</button>
+                                    <button onclick="eliminarPrestamoFormulario(<?= $prestamo['NumeroVale'] ?>);" class="btn btn-danger btn-block mb-1"><i class="fas fa-trash"></i> Eliminar registro</button>
                                 </form>
-                                <!-- Botón para ver detalles  -->
-                                <button onclick="abrirDetallesPrestamo('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-info"><i class="fas fa-eye"></i> Detalles</button>
-
+                                <button onclick="abrirDetallesPrestamo('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-info btn-block mb-0"><i class="fas fa-eye"></i> Detalles</button>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>

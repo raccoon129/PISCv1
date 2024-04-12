@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             loader.style.display = 'none';
-            uploadButton.disabled = true;
-            uploadButton.textContent = 'Hecho';
+            uploadButton.disabled = false;
+            uploadButton.textContent = 'Reintentar';
 
             // Mostrar un mensaje más legible en el alert
             alert(data.message);

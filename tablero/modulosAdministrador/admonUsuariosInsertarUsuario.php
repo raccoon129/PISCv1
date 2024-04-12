@@ -42,18 +42,20 @@ verificarAcceso(['Administrador']);
                 <label for="nombrecompleto" class="form-label">Nombre Completo</label>
                 <input type="text" class="form-control" id="nombrecompleto" name="nombrecompleto" required>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <button type="submit" class="btn btn-primary" id="saveButton">
+                <span id="buttonText">Guardar Cambios</span>
+                <div class="spinner-border spinner-border-sm" role="status" id="spinner" style="display: none;">
+                    <span class="sr-only">Guardando</span>
+                </div>
+            </button>
+
             <a href="#" onclick="window.close();" class="btn btn-secondary">Cancelar</a>
 
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../validarCamposSinEspacios.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            validarCampoSinEspacios('formInsertarUsuario', 'username');
-        });
-    </script>
+    <script src="scriptAdmonUsuariosInsertarUsuario.js"> </script>
 </body>
 
 </html>
