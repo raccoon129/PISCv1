@@ -3,9 +3,10 @@ include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
 
-header('Content-Type: application/json');
+header('Content-Type: application/json'); // Establece el tipo de contenido de la respuesta como JSON.
 
-function procesarImagen($archivo, $bienID) {
+function procesarImagen($archivo, $bienID)
+{
     // Registrar la iniciación del procesamiento
     error_log("Iniciando procesamiento de imagen para bienID: $bienID");
 
@@ -14,15 +15,15 @@ function procesarImagen($archivo, $bienID) {
         return ["success" => false, "message" => "Error al cargar el archivo. Código de error: " . $archivo['error']];
     }
 
-    $rutaTemporal = $archivo['tmp_name'];
-    $extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
-    $rutaDestino = "../../tablero/imgBienes/" . $bienID . '.' . $extension;
-    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+    $rutaTemporal = $archivo['tmp_name']; // Obtiene la ruta temporal del archivo cargado.
+    $extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION)); // Obtiene la extensión del archivo.
+    $rutaDestino = "../../tablero/imgBienes/" . $bienID . '.' . $extension; // Define la ruta de destino.
+    $allowedExtensions = ['jpg', 'jpeg', 'png']; // Establece las extensiones de archivo permitidas.
 
     if (!in_array($extension, $allowedExtensions)) {
         return ["success" => false, "message" => "Tipo de archivo no permitido: $extension"];
     }
-
+    // Obtiene las dimensiones de la imagen.
     $imageSize = getimagesize($rutaTemporal);
     if (!$imageSize) {
         return ["success" => false, "message" => "No se pudo obtener el tamaño de la imagen."];
@@ -31,7 +32,7 @@ function procesarImagen($archivo, $bienID) {
     list($anchoOriginal, $altoOriginal) = $imageSize;
     $maximoPixeles = 2 * 1000000; // 2 Megapíxeles
     $calidadImagen = 75; // Calidad de JPEG
-
+    // Verifica si el tamaño de la imagen excede el máximo permitido y la redimensiona si es necesario.
     if ($anchoOriginal * $altoOriginal > $maximoPixeles) {
         $ratio = $anchoOriginal / $altoOriginal;
         $nuevoAncho = sqrt($maximoPixeles * $ratio);
@@ -63,15 +64,16 @@ function procesarImagen($archivo, $bienID) {
             return ["success" => false, "message" => "No se pudo mover la imagen al destino."];
         }
     }
-
+    // Actualiza un archivo JSON con la nueva ruta de la imagen.
     if (!actualizarJson($bienID, $rutaDestino)) {
         return ["success" => false, "message" => "No se pudo actualizar el archivo JSON."];
     }
 
     return ["success" => true, "message" => "Imagen procesada y guardada con éxito."];
 }
-
-function actualizarJson($bienID, $rutaImagen) {
+// Función para actualizar un archivo JSON con las rutas de las imágenes.
+function actualizarJson($bienID, $rutaImagen)
+{
     $jsonFilePath = '../bibliotecaFotosBienes.json';
 
     $fotosBienes = file_exists($jsonFilePath) ? json_decode(file_get_contents($jsonFilePath), true) : [];
@@ -84,7 +86,7 @@ function actualizarJson($bienID, $rutaImagen) {
 
     return true;
 }
-
+// Procesa la solicitud POST si se proporcionó una imagen.
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['imagenBien'])) {
     $archivo = $_FILES['imagenBien'];
     $bienID = $_POST['bienID'];
@@ -93,4 +95,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES['imagenBien'])) {
 } else {
     echo json_encode(["success" => false, "message" => "No se proporcionó ninguna imagen."]);
 }
-?>
