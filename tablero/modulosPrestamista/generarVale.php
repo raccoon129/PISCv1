@@ -1,7 +1,7 @@
 <?php
 include('../control_acceso.php');
 verificarAcceso();
-function recortarTexto($texto) {
+function recortarTexto15($texto) {
     if (strlen($texto) > 15) {
         return substr($texto, 0, 15) . "...";
     } else {
@@ -12,6 +12,14 @@ function recortarTexto($texto) {
 function recortarTexto10($texto) {
     if (strlen($texto) > 10) {
         return substr($texto, 0, 10) . "...";
+    } else {
+        return $texto;
+    }
+}
+//Este se usa para la descripcion de los bienes, observaciones, area, unidad, resp
+function recortarTexto65($texto) {
+    if (strlen($texto) > 65) {
+        return substr($texto, 0, 65) . "...";
     } else {
         return $texto;
     }
@@ -136,7 +144,7 @@ $pdf->MultiCell(0, 0, 'No de vale: ' . utf8_decode($numeroVale), 0, 'L');
 $pdf->Text(118, 27, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 $pdf->Text(155, 42, utf8_decode($fechaSolicitud), 'LR', 1, 'L');
 $pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
-$pdf->Text(20, 42, utf8_decode(recortarTexto($carrera)), 'LR', 1, 'L');
+$pdf->Text(20, 42, utf8_decode(recortarTexto15($carrera)), 'LR', 1, 'L');
 
 //Recibi del laboratorio "tal"
 $pdf->Text(49, 57, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
@@ -144,7 +152,7 @@ $pdf->Text(49, 57, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 // Recorriendo la coleccion de Bienes(solo la descripcion) prestados
 $ejeYPrestados = 66.4; // Posición inicial en Y para lo que se escribirá
 foreach ($bienesData as $index => $bien) {
-    $line = utf8_decode($bien['Descripcion']);
+    $line = utf8_decode(recortarTexto65($bien['Descripcion']));
     $pdf->Text(23, $ejeYPrestados, $line);
     $ejeYPrestados += 5.4; // Ajuste para la siguiente línea
 }
@@ -166,22 +174,22 @@ foreach ($bienesData as $index => $bien) {
 }
 
 //Aca terminan los campos de lo que se presta
-$pdf->Text(40, 99, utf8_decode($observaciones), 'LR', 1, 'L');
-$pdf->Text(17, 133, utf8_decode(recortarTexto($nombreDeudor)), 'LR', 1, 'L');
-$pdf->Text(57, 133, utf8_decode(recortarTexto($nombreEntrega)), 'LR', 1, 'L');
+$pdf->Text(40, 99, utf8_decode(recortarTexto65($observaciones)), 'LR', 1, 'L');
+$pdf->Text(17, 133, utf8_decode(recortarTexto15($nombreDeudor)), 'LR', 1, 'L');
+$pdf->Text(57, 133, utf8_decode(recortarTexto15($nombreEntrega)), 'LR', 1, 'L');
 
 //Acá la persona que recibe los bienes. Solo aparece cuando ya se han devuelto.
-$pdf->Text(99, 133, utf8_decode(recortarTexto($nombreRecibe)), 'LR', 1, 'L');
+$pdf->Text(99, 133, utf8_decode(recortarTexto15($nombreRecibe)), 'LR', 1, 'L');
 // La misma persona que se le prestan los bienes, debe entregarlos.
-$pdf->Text(140, 133, utf8_decode(recortarTexto($nombreDeudor)), 'LR', 1, 'L');
+$pdf->Text(140, 133, utf8_decode(recortarTexto15($nombreDeudor)), 'LR', 1, 'L');
 
 // Acá los campos adicionales de area, unidad y responsable.
-$pdf->Text(56, 42, utf8_decode($area), 'LR', 1, 'L');
-$pdf->Text(35, 107, utf8_decode($unidad), 'LR', 1, 'L');
-$pdf->Text(35, 111, utf8_decode($responsable), 'LR', 1, 'L');
+$pdf->Text(56, 42, utf8_decode(recortarTexto65($area)), 'LR', 1, 'L');
+$pdf->Text(35, 107, utf8_decode(recortarTexto65($unidad)), 'LR', 1, 'L');
+$pdf->Text(35, 111, utf8_decode(recortarTexto65($responsable)), 'LR', 1, 'L');
 
 // area en la parte inferior
-$pdf->Text(35, 103, utf8_decode($area), 'LR', 1, 'L');
+$pdf->Text(35, 103, utf8_decode(recortarTexto65($area)), 'LR', 1, 'L');
 
 $pdf->Output('I', 'valeGenerado.pdf'); // Cambiar 'D' por 'I' para abrir el PDF en el navegador
 

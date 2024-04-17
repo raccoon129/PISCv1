@@ -8,8 +8,8 @@
         "Ing en Gesti\u00f3n Empresarial",
         "Arquitectura",
         "Gastronom\u00eda",
-        "Prueba",
-        "IIAS"
+        "IIAS",
+        "Otro"
     ],
     "NombreLaboratorio": "Abundio Mart\u00ednez",
     "ubicaciones": [
@@ -22,6 +22,7 @@
         "CC5",
         "Sun Microsystems",
         "\u00c1rea General",
-        "Recepci\u00f3n"
+        "Recepci\u00f3n",
+        "Cubiculo 1"
     ]
 }

@@ -5,11 +5,18 @@ verificarAcceso(['Administrador']);
 
 // Obtener el BienID del formulario
 $bienID = isset($_GET['bienID']) ? $_GET['bienID'] : '';
-
 // Flag para saber si se encontraron resultados
 $encontrado = false;
 
 if ($bienID !== '') {
+    // Consulta para verificar si el bien está prestado
+    $consultaPrestamo = "SELECT * FROM detalle_vale WHERE Bien_ID = ?";
+    $stmtPrestamo = $conexion->prepare($consultaPrestamo);
+    $stmtPrestamo->bind_param("s", $bienID);
+    $stmtPrestamo->execute();
+    $resultadoPrestamo = $stmtPrestamo->get_result();
+    $estaPrestado = ($resultadoPrestamo->num_rows > 0);
+
     // Consulta a la base de datos para obtener los datos relacionados con el BienID
     $sql = "SELECT * FROM inventario WHERE BienID = ?";
     $stmt = $conexion->prepare($sql);
@@ -25,12 +32,13 @@ if ($bienID !== '') {
         $modelo = $row['Modelo'];
         $ubicacion = $row['Ubicacion'];
         $estado = $row['Estado'];
-    }
-
-    if ($result->num_rows > 0) {
         $encontrado = true;
     }
+
+    $stmtPrestamo->close();
+    $stmt->close();
 }
+
 
 // Cargar configuraciones desde JSON
 $rutaJSONConfiguracion = '../variablesConfiguracion.json';
@@ -155,7 +163,8 @@ if (file_exists($jsonFilePath)) {
                                         <option value='Dañado' " . ($row["Estado"]=="Dañado" ? "selected" : "" ) . ">Dañado</option>
                                         <option value='En Reparación' " . ($row["Estado"]=="En Reparación" ? "selected" : "" ) . ">En Reparación</option>
                                         <option value='Perdido' " . ($row["Estado"]=="Perdido" ? "selected" : "" ) . ">Perdido</option>
-                                    </select>                    
+                                    </select>     
+                                                   
                                 </div>
 
                                 <button type=" submit" class="btn btn-primary">Confirmar y guardar cambios</button>

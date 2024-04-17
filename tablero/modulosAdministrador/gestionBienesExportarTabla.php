@@ -120,7 +120,7 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
         // Solo se muestra en la ultima pag
         $pdf->AliasNbPages();
         $pdf->SetFont('Arial', 'I', 8);
-        $pdf->SetY(111);
+        $pdf->SetY(140);
         $pdf->Cell(0, 10, utf8_decode('Página: ') . $pdf->PageNo() . '/{nb}', 0, 0, 'C');
 
         // Salida del PDF al navegador

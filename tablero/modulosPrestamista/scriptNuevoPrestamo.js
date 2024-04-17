@@ -184,3 +184,19 @@ $(document).ready(function () {
         }
     });
 });
+
+//Para rectificar las fechas 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const formulario = document.querySelector('form'); 
+
+    formulario.addEventListener('submit', function(event) {
+        const fechaSolicitud = document.getElementById('fechaSolicitud').value;
+        const fechaDevolucionPrevista = document.getElementById('fechaDevolucionPrevista').value;
+
+        if (fechaDevolucionPrevista < fechaSolicitud) {
+            alert('La fecha de devolución prevista no puede ser menor que la fecha de solicitud.');
+            event.preventDefault(); // Prevenir que el formulario se envíe
+        }
+    });
+});
