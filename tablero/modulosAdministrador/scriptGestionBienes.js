@@ -13,12 +13,11 @@ function abrirExportarDatosTabla() {
     window.open(url, "Exportar datos de la tabla", "width=1100,height=500");
 }
 
-function confirmDelete(inventarioID) {
-    var confirmacion = confirm("¿Estás seguro de que deseas eliminar este registro?");
-    if (confirmacion) {
-        window.location.href = "gestionBienesEliminarRegistro.php?id=" + inventarioID;
-    }
+function abrirAuditarBajas() {
+    var url = 'gestionBienesAuditarBajas.php';
+    window.open(url, "Exportar datos de la tabla", "width=1100,height=500");
 }
+
 function verFoto(bienID) {
     var url = "gestionBienesVisualizarFotoBien.php?bienID=" + bienID;
     window.open(url, "_blank", "width=1250,height=600");

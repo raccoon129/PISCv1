@@ -7,8 +7,10 @@ $ubicacionSeleccionada = isset($_POST['ubicacion']) ? $_POST['ubicacion'] : '';
 $formato = isset($_POST['formato']) ? $_POST['formato'] : '';
 $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
-$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado 
-AS EstadoBien FROM inventario i JOIN detalles_bien db ON i.BienID = db.ID";
+$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado AS EstadoBien 
+FROM inventario i 
+JOIN detalles_bien db ON i.BienID = db.ID 
+WHERE db.Estado <> 'Baja'"; // Excluye los bienes dados de baja
 
 // filtro de ubicación a la consulta si es necesario
 if (!empty($ubicacionSeleccionada)) {
@@ -40,8 +42,6 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
         }
         fclose($salida);
         exit;
-
-
 
     } elseif ($formato === 'PDF') {
         // Implementación para generar el PDF
@@ -120,7 +120,7 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
         // Solo se muestra en la ultima pag
         $pdf->AliasNbPages();
         $pdf->SetFont('Arial', 'I', 8);
-        $pdf->SetY(140);
+        $pdf->SetY(0);
         $pdf->Cell(0, 10, utf8_decode('Página: ') . $pdf->PageNo() . '/{nb}', 0, 0, 'C');
 
         // Salida del PDF al navegador
@@ -146,8 +146,10 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
     <div class="container mt-5">
         <h2>Exportar Datos de Bienes</h2>
         <div class="alert alert-primary" role="alert">
-            Para una correcta visualización del archivo exportado en CSV, 
-            considere emplear Apache OpenOffice. Puede obtenerlo sin compromiso dando click <a href="https://www.openoffice.org/es/descargar/" class="alert-link">aquí</a>.
+            <li>Se exportarán únicamente los bienes activos.</li>
+            Para una correcta visualización del archivo exportado en CSV considere emplear Apache OpenOffice. 
+            <br>
+            Puede obtenerlo sin compromiso dando clic <a href="https://www.openoffice.org/es/descargar/" class="alert-link">aquí</a>.
         </div>
         <form method="post">
             <!-- Selector de ubicación -->
@@ -157,7 +159,9 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
                     <option value="">Todos</option>
                     <?php
                     // Obtener las ubicaciones únicas de la base de datos
-                    $ubicaciones = $conexion->query("SELECT DISTINCT Ubicacion FROM inventario WHERE Ubicacion IS NOT NULL ORDER BY Ubicacion ASC");
+                    $ubicaciones = $conexion->query("SELECT DISTINCT Ubicacion FROM inventario i JOIN detalles_bien db 
+                    ON i.BienID = db.ID WHERE db.Estado <> 'Baja' AND Ubicacion IS NOT NULL ORDER BY Ubicacion ASC");
+
                     while ($ubi = $ubicaciones->fetch_assoc()) {
                         echo "<option value=\"" . $ubi['Ubicacion'] . "\"" . ($ubi['Ubicacion'] == $ubicacionSeleccionada ? ' selected' : '') . ">" . $ubi['Ubicacion'] . "</option>";
                     }
@@ -175,13 +179,13 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
             </div>
 
             <!-- Botones para exportar y visualizar -->
-            <button type="submit" class="btn btn-primary" name="accion" value="visualizar">Visualizar</button>
             <button type="submit" class="btn btn-success" name="accion" value="exportar">Exportar</button>
+            <button type="submit" class="btn btn-primary" name="accion" value="visualizar">Visualizar</button>
         </form>
 
         <?php if ($accion === 'visualizar' && $resultados->num_rows > 0) : ?>
             <div class="mt-4">
-                <table class="table">
+                <table class="table table-striped">
                     <thead class="thead-light">
                         <tr>
                             <th>No.</th>

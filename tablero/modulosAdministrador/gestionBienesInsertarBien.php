@@ -85,9 +85,8 @@ $ubicaciones = $configuracion['ubicaciones'];
                     <!-- Aquí irá la subida de imagenes -->
                     <div class="form-group">
                         <label for="imagenBien">Imagen del Bien:</label>
-                        <input type="file" class="form-control-file" id="imagenBien" name="imagenBien" onchange="previsualizarImagen(this)">
+                        <input type="file" class="form-control-file" id="imagenBien" name="imagenBien">
                         <small class="form-text text-muted">Selecciona una única imágen en .jpg o .png. Se comprimen al momento de cargarse.</small>
-                        <img id="previsualizacion" src="#" alt="Previsualización de la imagen" class="img-thumbnail" style="display: none; width: 200px;" />
                     </div>
 
                 </div>

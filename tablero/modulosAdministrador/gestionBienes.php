@@ -3,18 +3,14 @@
 include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
-// Al principio de gestionBienes.php
-if (isset($_GET['status'])) {
-    if ($_GET['status'] == 'success') {
-        echo "<script>alert('Registro eliminado con éxito');</script>";
-    } elseif ($_GET['status'] == 'error') {
-        echo "<script>alert('Hubo un error al eliminar el registro');</script>";
-    }
-}
+
 
 // Consulta SQL para obtener todos los registros sin limitarlos por paginación
-$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado 
-AS EstadoBien FROM inventario i JOIN detalles_bien db ON i.BienID = db.ID ORDER BY i.InventarioID DESC";
+$sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado AS EstadoBien 
+        FROM inventario i 
+        JOIN detalles_bien db ON i.BienID = db.ID 
+        WHERE db.Estado != 'Baja' 
+        ORDER BY i.InventarioID DESC";
 $result = $conexion->query($sql);
 ?>
 
@@ -46,8 +42,8 @@ $result = $conexion->query($sql);
         <br>
         <button class="btn btn-success" onclick="abrirFormularioNuevoBien()">Insertar Nuevo Bien</button>
         <button class="btn btn-primary" onclick="abrirEditarBien()">Búsqueda y edición de Bien</button>
-
         <button class="btn btn-info" onclick="abrirExportarDatosTabla()">Exportar datos y filtrar</button>
+        <button class="btn btn-primary" onclick="abrirAuditarBajas()">Auditar bajas</button>
         <br>
         <div class="tabla-responsiva">
             <table id="tablaBienes" class="table table-striped table-bordered" style="width:100%">

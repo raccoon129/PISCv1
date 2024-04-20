@@ -24,7 +24,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Instalación de PISC v1.1.2</title>
+        <title>Instalación de PISC v1.1.3</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
 
@@ -101,7 +101,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                     <div class="mt-4 text-center">
                         <img src="img/CajaPISC.png" alt="Branding PISC" class="img-fluid">
-                        <p>PISC - Préstamos ISC v1.1.2</p>
+                        <p>PISC - Préstamos ISC v1.1.3</p>
                     </div>
                 </div>
             </div>
