@@ -169,21 +169,52 @@ $("form").submit(function (e) { //Para ver en consola lo que se manda mientras l
 });
 
 
-//contar caracteres para evitar que las observaciones sean extensas y evitar errores en la DB (Varchar 255)
 $(document).ready(function () {
-    $('#observaciones').on('input', function () {
-        // Contar los caracteres de las observaciones
-        var caracteres = $(this).val().length;
+    $('#btnRegistrarPrestamo').click(function (event) {
+        var isValid = true;
+        var campos = ['#nombreDeudor', '#area', '#unidad', '#responsable'];
 
-        // Si excede los 240 caracteres, deshabilita el botón
+        // Validación de campos vacíos
+        campos.forEach(function (campo) {
+            var valor = $(campo).val().trim();
+            if (!valor) {
+                isValid = false;
+                alert('Por favor, rellene todos los campos. Los espacios en blanco no son válidos.');
+                $(campo).focus();
+                event.preventDefault(); // Prevenir la acción de submit si hay un campo no válido
+                return; // Salir de esta iteración del ciclo forEach
+            }
+        });
+
+        // Comprobar si hay bienes seleccionados
+        var bienesID = JSON.parse($('#bienesID').val());
+        if (bienesID.length === 0) {
+            alert("Debe agregar al menos un bien para registrar el préstamo.");
+            event.preventDefault(); // Prevenir la acción de submit si no hay bienes
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Prevenir la acción de submit
+        }
+    });
+
+    // Contador de caracteres en observaciones
+    $('#observaciones').on('input', function () {
+        var caracteres = $(this).val().length;
+        $('#contadorCaracteres').text(caracteres);
+
         if (caracteres > 240) {
+            alert('El texto no debe exceder los 240 caracteres.');
+            $(this).val($(this).val().substring(0, 240));
+            $('#contadorCaracteres').text(240);
             $('#btnRegistrarPrestamo').prop('disabled', true);
         } else {
-            // De lo contrario, habilitar
             $('#btnRegistrarPrestamo').prop('disabled', false);
         }
     });
 });
+
 
 //Para rectificar las fechas 
 
@@ -197,6 +228,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (fechaDevolucionPrevista < fechaSolicitud) {
             alert('La fecha de devolución prevista no puede ser menor que la fecha de solicitud.');
             event.preventDefault(); // Prevenir que el formulario se envíe
+            return;
+        }
+        
+        if (fechaSolicitud > fechaDevolucionPrevista){
+            alert('La fecha de solicitud no puede ser mayor a la fecha de devolución prevista.');
+            event.preventDefault();
+            return;
         }
     });
 });

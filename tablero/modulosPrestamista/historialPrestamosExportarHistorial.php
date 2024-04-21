@@ -1,69 +1,61 @@
 <?php
+
 include('../../db.php');
 include('../control_acceso.php');
 
 // Variables para los filtros
 $estadoPrestamo = isset($_POST['estadoPrestamo']) ? $_POST['estadoPrestamo'] : '';
-$accion = isset($_POST['accion']) ? $_POST['accion'] : '';
+$accion = isset($_POST['accion']) ? $_POST['accion'] : '';  // Define la variable $accion
 
-if ($accion === 'exportar' && isset($_POST['formato']) && $_POST['formato'] === 'CSV') {
-    ob_start();  // Iniciar captura de salida para evitar problemas de salida prematura
+// Preparar la consulta base
+$sql = "SELECT v.NumeroVale, v.FechaHoraPrestamo, d.Nombre AS Deudor, d.Rol, 
+GROUP_CONCAT(i.Descripcion SEPARATOR ', ') AS DescripcionBienes, 
+v.FechaDevolucionPrevista, v.FechaDevolucionReal,
+CASE 
+    WHEN v.FechaDevolucionReal IS NOT NULL THEN 'Préstamo finalizado' 
+    ELSE 'Préstamo activo' 
+END AS EstadoPrestamo
+FROM vale v
+JOIN deudor d ON v.Deudor_ID = d.ID
+JOIN detalle_vale dv ON v.NumeroVale = dv.NumeroVale
+JOIN inventario i ON dv.Bien_ID = i.BienID
+GROUP BY v.NumeroVale";
 
-    // Preparar la consulta base
-    $sql = "SELECT v.NumeroVale, v.FechaHoraPrestamo, d.Nombre AS Deudor, d.Rol, 
-    GROUP_CONCAT(i.Descripcion SEPARATOR ', ') AS DescripcionBienes, 
-    v.FechaDevolucionPrevista, v.FechaDevolucionReal,
-    CASE 
-        WHEN v.FechaDevolucionReal IS NOT NULL THEN 'Préstamo finalizado' 
-        ELSE 'Préstamo activo' 
-    END AS EstadoPrestamo
-    FROM vale v
-    JOIN deudor d ON v.Deudor_ID = d.ID
-    JOIN detalle_vale dv ON v.NumeroVale = dv.NumeroVale
-    JOIN inventario i ON dv.Bien_ID = i.BienID
-    GROUP BY v.NumeroVale";
+// Aplicar filtro de estado de préstamo si es necesario
+if ($estadoPrestamo == 'activo') {
+    $sql .= " HAVING EstadoPrestamo = 'Préstamo activo'";
+} elseif ($estadoPrestamo == 'finalizado') {
+    $sql .= " HAVING EstadoPrestamo = 'Préstamo finalizado'";
+}
 
-    $fechaHoraActual = date('Ymd_His'); // Formato de ejemplo: 20230308_143501
-    // Aplicar filtro de estado de préstamo si es necesario
-    if ($estadoPrestamo == 'activo') {
-        $sql .= " HAVING EstadoPrestamo = 'Préstamo activo'";
-    } elseif ($estadoPrestamo == 'finalizado') {
-        $sql .= " HAVING EstadoPrestamo = 'Préstamo finalizado'";
-    }
+$sql .= " ORDER BY v.FechaHoraPrestamo DESC";
 
-    $sql .= " ORDER BY v.FechaHoraPrestamo DESC";
-    $resultados = $conexion->query($sql);
+$resultados = $conexion->query($sql);
 
-    if ($resultados->num_rows > 0) {
-        // Preparar cabeceras para descarga de CSV
+// Si se solicita exportar
+if ($accion === 'exportar' && $resultados->num_rows > 0) {
+    $formato = isset($_POST['formato']) ? $_POST['formato'] : '';
+
+    if ($formato === 'CSV') {
+        // Generar una cadena con la fecha y hora actuales
+        $fechaHoraActual = date('Ymd_His'); // Formato de ejemplo: 20230308_143501
+
         header('Content-Type: text/csv; charset=utf-8');
+        // Incluir la fecha y hora en el nombre del archivo
         header("Content-Disposition: attachment; filename=\"historial_prestamos_{$fechaHoraActual}.csv\"");
-        
-        // Abrir el flujo de salida
         $salida = fopen('php://output', 'w');
 
-        // Escribir la BOM para UTF-8
+        // Escribir la BOM de UTF-8 al inicio del archivo
         fprintf($salida, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-        // Escribir encabezados de las columnas del CSV
+        // Las cabeceras del CSV
         fputcsv($salida, array('NumeroVale', 'FechaHoraPrestamo', 'Deudor', 'Rol', 'DescripcionBienes', 'FechaDevolucionPrevista', 'FechaDevolucionReal', 'EstadoPrestamo'), ';');
 
-        // Rellenar el archivo CSV con los datos de la base de datos
+        // Recorrer los resultados y escribirlos en el archivo CSV
         while ($fila = $resultados->fetch_assoc()) {
-            fputcsv($salida, array(
-                $fila['NumeroVale'], 
-                $fila['FechaHoraPrestamo'], 
-                $fila['Deudor'], 
-                $fila['Rol'], 
-                $fila['DescripcionBienes'], 
-                $fila['FechaDevolucionPrevista'], 
-                $fila['FechaDevolucionReal'] ? $fila['FechaDevolucionReal'] : 'No se ha devuelto', 
-                $fila['EstadoPrestamo']
-            ), ';');
+            fputcsv($salida, array($fila['NumeroVale'], $fila['FechaHoraPrestamo'], $fila['Deudor'], $fila['Rol'], $fila['DescripcionBienes'], $fila['FechaDevolucionPrevista'], $fila['FechaDevolucionReal'] ? $fila['FechaDevolucionReal'] : 'No se ha devuelto', $fila['EstadoPrestamo']), ';');
         }
-        fclose($salida);
         exit;
-        ob_end_clean();  // Limpiar el buffer y desactivar la captura de salida
     } elseif ($formato === 'PDF') {
         // Implementación para generar el PDF
         require_once('../../vendor/autoload.php');
@@ -123,10 +115,13 @@ if ($accion === 'exportar' && isset($_POST['formato']) && $_POST['formato'] === 
             $pdf->Cell($widths[3], 6, cortarTexto($fila['Rol']), 1);
             $pdf->Cell($widths[4], 6, cortarTexto($fila['DescripcionBienes'], 61), 1); // DescripcionBienes puede ser más largo
             $pdf->Cell($widths[5], 6, cortarTexto($fila['FechaDevolucionPrevista']), 1);
-            $pdf->Cell($widths[6], 6, cortarTexto($fila['FechaDevolucionReal'], 30 ? $fila['FechaDevolucionReal'] : 'No se ha devuelto'),  1);
+            // Corrección aquí: Primero verifica si la fecha es nula y luego corta el texto
+            $fechaDevolucionReal = $fila['FechaDevolucionReal'] ? $fila['FechaDevolucionReal'] : 'No se ha devuelto';
+            $pdf->Cell($widths[6], 6, cortarTexto($fechaDevolucionReal, 30), 1);
             $pdf->Cell($widths[7], 6, cortarTexto($fila['EstadoPrestamo'], 30), 1);
             $pdf->Ln();
         }
+        
 
         // Número de página en la parte inferior
         $pdf->AliasNbPages();
@@ -155,7 +150,7 @@ $conexion->close();
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-4">
         <h2>Exportar Historial de Préstamos</h2>
 
         <div class="alert alert-primary" role="alert">

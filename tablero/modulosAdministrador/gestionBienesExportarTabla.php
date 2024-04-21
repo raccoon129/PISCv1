@@ -114,7 +114,6 @@ if ($accion === 'exportar' && $resultados->num_rows > 0) {
             $pdf->Cell($widths[8], 6, cortarTexto($fila['EstadoBien']), 1);
             $pdf->Ln();
         }
-        
 
         // Número de página en la parte inferior. Hay un bug pendiente, se queda asi mientras veo como resolverlo.
         // Solo se muestra en la ultima pag
