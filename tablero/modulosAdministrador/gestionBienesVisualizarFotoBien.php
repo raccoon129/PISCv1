@@ -1,11 +1,15 @@
 <?php
 include '../../db.php';
 include('../control_acceso.php');
+require_once('../../vendor/autoload.php');
 verificarAcceso();
+
+$isImageAvailable = false;  // Variable para controlar la disponibilidad de la imagen
+
 
 $bienID = isset($_GET['bienID']) ? $_GET['bienID'] : '';
 
-$sql = "SELECT BienID, Descripcion FROM inventario WHERE BienID = ?";
+$sql = "SELECT BienID, Descripcion, Ubicacion FROM inventario WHERE BienID = ?";
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("s", $bienID);
 $stmt->execute();
@@ -20,6 +24,15 @@ if (file_exists($jsonFilePath)) {
 } else {
     $fotosBienes = [];
 }
+//Validacion extra para habilitar o no el boton
+if (file_exists($jsonFilePath)) {
+    $fotosBienesJson = file_get_contents($jsonFilePath);
+    $fotosBienes = json_decode($fotosBienesJson, true);
+    if (array_key_exists($bien['BienID'], $fotosBienes) && file_exists($fotosBienes[$bien['BienID']])) {
+        $imagenRuta = $fotosBienes[$bien['BienID']];
+        $isImageAvailable = true;  // La imagen existe
+    }
+}
 
 // Definir la ruta de la imagen
 if (!empty($fotosBienes) && array_key_exists($bien['BienID'], $fotosBienes)) {
@@ -29,7 +42,37 @@ if (!empty($fotosBienes) && array_key_exists($bien['BienID'], $fotosBienes)) {
 
     $mensajeError = 'No hay imagen disponible para este bien.';
 }
+
+if (isset($_POST['action']) && $_POST['action'] === 'print') {
+    // Crear instancia de FPDF
+    $pdf = new FPDF('P', 'mm', 'A4');
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+
+    // Logo
+    $pdf->Image('../../img/transparenteMediano.png', 10, 10, 33);
+    $pdf->Ln(20);
+
+    // Título
+    $pdf->Cell(190, 10, 'Fotografia del bien: ' . $bien['BienID'], 0, 1, 'C');
+
+    // Detalles del bien
+    $pdf->SetFont('Arial', '', 12);
+    $pdf->Cell(190, 10, 'Descripcion: ' . $bien['Descripcion'], 0, 1);
+    $pdf->Cell(190, 10, 'Ubicacion: ' . $bien['Ubicacion'], 0, 1);
+
+    // Imagen del bien
+    if ($imagenRuta) {
+        $pdf->Image($imagenRuta, 10, 60, 120);
+    }
+
+    // Enviar el PDF al navegador
+    $pdf->Output('I', 'Fotografia_del_bien_' . $bien['BienID'] . '.pdf');
+    exit;
+}
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -47,7 +90,11 @@ if (!empty($fotosBienes) && array_key_exists($bien['BienID'], $fotosBienes)) {
         <h2>Fotografía del bien</h2>
         <p><strong>No. de Inventario:</strong> <?php echo htmlspecialchars($bien['BienID']); ?></p>
         <p><strong>Descripción:</strong> <?php echo htmlspecialchars($bien['Descripcion']); ?></p>
-
+        <form method="post">
+            <input type="hidden" name="action" value="print">
+            <button type="submit" id="btnImprimir" class="btn btn-primary" <?php if (!$isImageAvailable) echo 'disabled'; ?>>Imprimir previsualización</button>
+        </form>
+        <br>
         <?php if ($imagenRuta) : ?>
             <a href="<?php echo $imagenRuta; ?>" data-lightbox="imagen-bien" data-title="Bien: <?php echo htmlspecialchars($bien['Descripcion']); ?>">
                 <img src="<?php echo $imagenRuta; ?>" alt="Foto del Bien" class="img-fluid" onerror="this.src='../imgBienes/notFoundPic.jpg';">
@@ -57,17 +104,12 @@ if (!empty($fotosBienes) && array_key_exists($bien['BienID'], $fotosBienes)) {
         <?php endif; ?>
         <br>
         <br>
-        <button id="btnImprimir" class="btn btn-primary">Imprimir previsualización</button>
         <br>
         <br>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    <script>
-        document.getElementById('btnImprimir').addEventListener('click', function() {
-            window.print();
-        });
-    </script>
+
 </body>
 
 </body>
