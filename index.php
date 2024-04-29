@@ -24,7 +24,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Instalación de PISC v1.1.3</title>
+        <title>Instalación de PISC v1.1.4</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     </head>
 
@@ -32,10 +32,10 @@ if ($result && mysqli_num_rows($result) > 0) {
         <div class="container mt-5">
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title mb-4">Instalación de PISC v1.1.3</h1>
+                    <h1 class="card-title mb-4">Instalación de PISC v1.1.4</h1>
                     <h3 class="card-subtitle mb-2 text-muted">Gracias por adquirir su nueva solución para el control de préstamos y de bienes.</h3>
                     <h5>Por favor, ingrese los campos requeridos para crear su nueva cuenta de administrador:</h5>
-                    <div class='alert alert-info'>Recuerde sus credenciales, esta pantalla aparecerá una única vez. <a href='/resources/ManualUsuarioPISC.pdf' class='alert-link'>Más información</a>.</div>
+                    <div class='alert alert-info'>Recuerde sus credenciales, esta pantalla aparecerá una única vez. <a href='https://sites.google.com/iteshu.edu.mx/pisc/documentaci%C3%B3n' class='alert-link'>Más información</a>.</div>
 
                     <?php
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['password'])) {
@@ -101,7 +101,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                     <div class="mt-4 text-center">
                         <img src="img/CajaPISC.png" alt="Branding PISC" class="img-fluid">
-                        <p>PISC - Préstamos ISC v1.1.3</p>
+                        <p>PISC - Préstamos ISC v1.1.4</p>
                     </div>
                 </div>
             </div>

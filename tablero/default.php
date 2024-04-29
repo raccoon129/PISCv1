@@ -64,7 +64,7 @@ session_start();
             <img src="../img/NuevoPISC.png" alt="Imagen" class="img-fluid mx-auto d-block" style="max-width: 300px;">
         </div>
 
-        <p strong class="text-center">PISC v1.1.3</p>
+        <p strong class="text-center">PISC v1.1.4</p>
         <p strong class="text-center">Última actualización: <?php echo date('H:i:s'); ?></p>
 
     </div>
