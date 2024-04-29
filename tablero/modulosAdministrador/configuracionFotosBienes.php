@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Revisión de Imágenes de Bienes</title>
+    <title>Revisión de Imágenes de Bienes - Submódulo PISC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 

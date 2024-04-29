@@ -40,7 +40,7 @@ $result = $conexion->query($sql);
     <div class="container mt-5">
         <h2>Gestión de bienes</h2>
         <br>
-        <button class="btn btn-success" onclick="abrirFormularioNuevoBien()">Insertar Nuevo Bien</button>
+        <button class="btn btn-success" onclick="abrirFormularioNuevoBien()">Insertar nuevo bien</button>
         <button class="btn btn-primary" onclick="abrirEditarBien()">Búsqueda y edición de Bien</button>
         <button class="btn btn-info" onclick="abrirExportarDatosTabla()">Exportar datos y filtrar</button>
         <button class="btn btn-primary" onclick="abrirAuditarBajas()">Auditar bajas</button>
