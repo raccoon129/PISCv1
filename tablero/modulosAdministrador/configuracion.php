@@ -105,14 +105,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php foreach ($carreras as $carrera) : ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <?php echo htmlspecialchars($carrera); ?>
-                            <form action="configuracion.php" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar esta carrera?');">
+                            <form action="configuracion.php" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar esta procedencia?');">
                                 <input type="hidden" name="eliminarCarrera" value="<?php echo htmlspecialchars($carrera); ?>">
                                 <input type="submit" name="eliminar" value="Borrar" class="btn btn-danger btn-sm">
                             </form>
                         </li>
                     <?php endforeach; ?>
                 </ul>
+                <hr>
+                <h4>Revisión para imágenes de bienes</h4>
+                <div class="alert alert-warning" role="alert">
+                    En el caso que haya añadido manualmente imágenes de los bienes, deberá registrarlas para que puedan
+                    ser visualizadas en este software.
+                </div>
+                <button type="button" class="btn btn-info" onclick="window.open('configuracionFotosBienes.php', 'Nueva Ventana', 'width=1300,height=600');">
+                        Abrir configuración de imagenes de bienes
+                    </button>
             </div>
+
             <div class="col-md-6">
                 <h4>Ubicaciones de los bienes</h4>
                 <div class="alert alert-info" role="alert">

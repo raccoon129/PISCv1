@@ -89,12 +89,12 @@ function mostrarResultado($mensaje, $tipo)
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <title>Resultado de la Operación</title>
+    <title>Resultado de la Operación - Funcionalidad PISC</title>
     </head>
     <body>
         <script>
             Swal.fire({
-                title: 'Resultado de la Operación',
+                title: 'Resultado de la operación',
                 text: '$mensaje',
                 icon: '$tipo',
                 confirmButtonText: 'Aceptar'

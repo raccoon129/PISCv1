@@ -44,6 +44,7 @@ $result = $conexion->query($sql);
         <button class="btn btn-primary" onclick="abrirEditarBien()">Búsqueda y edición de Bien</button>
         <button class="btn btn-info" onclick="abrirExportarDatosTabla()">Exportar datos y filtrar</button>
         <button class="btn btn-primary" onclick="abrirAuditarBajas()">Auditar bajas</button>
+        <button class="btn btn-info" onclick="abrirVolcarDatos()">Volcado masivo de datos</button>
         <br>
         <div class="tabla-responsiva">
             <table id="tablaBienes" class="table table-striped table-bordered" style="width:100%">

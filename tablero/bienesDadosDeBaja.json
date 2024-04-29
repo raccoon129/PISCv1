@@ -16,5 +16,11 @@
         "BienID": "fg342543453",
         "Observaciones": "Aleatorio",
         "FechaBaja": "2024-04-18 04:35:42"
+    },
+    {
+        "InventarioID": "117",
+        "BienID": "B060137",
+        "Observaciones": "Blablabla",
+        "FechaBaja": "2024-04-28 23:08:04"
     }
 ]

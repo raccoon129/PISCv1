@@ -18,6 +18,11 @@ function abrirAuditarBajas() {
     window.open(url, "Exportar datos de la tabla", "width=1100,height=500");
 }
 
+function abrirVolcarDatos() {
+    var url = 'gestionBienesVolcarDatosBienes.php';
+    window.open(url, "Volcado masivo de datos", "width=1100,height=500");
+}
+
 function verFoto(bienID) {
     var url = "gestionBienesVisualizarFotoBien.php?bienID=" + bienID;
     window.open(url, "_blank", "width=1250,height=600");
