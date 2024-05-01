@@ -26,7 +26,7 @@ $imagenesNoRegistradas = [];
 foreach ($imagenesDisponibles as $imagen) {
     $extension = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
     $bienID = pathinfo($imagen, PATHINFO_FILENAME);
-    if (in_array($extension, ['jpg', 'jpeg', 'png']) && !isset($imagenesJSON[$bienID]) && in_array($bienID, $bienesInventario)) {
+    if (in_array($extension, ['jpg', 'jpeg']) && !isset($imagenesJSON[$bienID]) && in_array($bienID, $bienesInventario)) {
         $imagenesNoRegistradas[] = $imagen;
     }
 }
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
             En el caso que haya cargado imágenes de manera manual en el directorio 'imgBienes' (<strong>no recomendado</strong> debido a que no se garantiza
             su correcta visualización en condiciones de red inestables, y conlleva riesgos en la manipulación del backend de este software) puede registrar su correspondencia a un bien para que pueda ser visualizado.
             <li>Considere que el nombre del archivo debe ser igual al <strong>No de Inventario</strong> de cada bien previamente registrado.</li>
-            <li>El formato debe ser jpg, jpeg o png. Si es distinto, el archivo es posible que no se muestre listado o se pueda previsualizar.</li>
+            <li>El formato debe ser jpg. Si es distinto, el archivo es posible que no se muestre listado o se pueda previsualizar.</li>
             <li>Es recomendable cargar cada imagen en el cuadro de diálogo correspondiente al insertar un bien individualmente o al editarlo.</li>
         </div>
         <?php if (!empty($mensaje)) : ?>
