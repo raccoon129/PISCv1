@@ -4,6 +4,9 @@ include('../control_acceso.php');
 include('../session_check.php');
 verificarAcceso(['Administrador']);
 
+//Por cuestiones de desarrollo, todas las variables "Carrera" dan referencia a una "Procedencia"
+//Falta renombrar.
+
 // Cargar el archivo JSON
 $filePath = "../variablesConfiguracion.json";
 $data = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : [];
@@ -11,26 +14,26 @@ $carreras = $data['carreras'] ?? [];
 $nombreLaboratorio = $data['NombreLaboratorio'] ?? '';
 $ubicaciones = $data['ubicaciones'] ?? [];
 
-// Procesar la eliminación de una carrera
+// Procesar la eliminación de una procedencia
 if (isset($_POST['eliminar']) && !empty($_POST['eliminarCarrera'])) {
     $eliminarCarrera = trim($_POST['eliminarCarrera']);
     if (($key = array_search($eliminarCarrera, $carreras)) !== false) {
         unset($carreras[$key]);
         $data['carreras'] = array_values($carreras); // Reindexar el array
         file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
-        echo "<script>alert('Carrera eliminada con éxito.'); window.location.href='configuracion.php';</script>";
+        echo "<script>alert('Procedencia eliminada con éxito.'); window.location.href='configuracion.php';</script>";
         exit;
     }
 }
 
-// Procesar el formulario de nueva carrera
+// Procesar el formulario de nueva Procedencia
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nuevaCarrera'])) {
     $nuevaCarrera = trim($_POST['nuevaCarrera']);
     if (!empty($nuevaCarrera) && !in_array($nuevaCarrera, $carreras)) {
         $carreras[] = $nuevaCarrera;
         $data['carreras'] = $carreras;
         file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
-        echo "<script>alert('Carrera añadida con éxito.'); window.location.href='configuracion.php';</script>";
+        echo "<script>alert('Procedencia añadida con éxito.'); window.location.href='configuracion.php';</script>";
         exit;
     }
 }

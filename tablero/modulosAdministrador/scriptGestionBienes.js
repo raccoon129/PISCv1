@@ -20,7 +20,7 @@ function abrirAuditarBajas() {
 
 function abrirVolcarDatos() {
     var url = 'gestionBienesVolcarDatosBienes.php';
-    window.open(url, "Volcado masivo de datos", "width=1100,height=500");
+    window.open(url, "Volcado masivo de datos", "width=1300,height=700");
 }
 
 function verFoto(bienID) {

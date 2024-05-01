@@ -22,5 +22,11 @@
         "BienID": "B060137",
         "Observaciones": "Blablabla",
         "FechaBaja": "2024-04-28 23:08:04"
+    },
+    {
+        "InventarioID": "118",
+        "BienID": "B713198",
+        "Observaciones": "",
+        "FechaBaja": "2024-04-30 00:49:35"
     }
 ]

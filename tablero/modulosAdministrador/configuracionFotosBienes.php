@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
         <h2>Revisión de Imágenes de Bienes</h2>
         <div class="alert alert-info" role="alert">
             En el caso que haya cargado imágenes de manera manual en el directorio 'imgBienes' (<strong>no recomendado</strong> debido a que no se garantiza
-            su correcta visualización en condiciones de red inestables, o en la manipulación del backend de este software) puede registrar su correspondencia a un bien para que pueda ser visualizado.
+            su correcta visualización en condiciones de red inestables, y conlleva riesgos en la manipulación del backend de este software) puede registrar su correspondencia a un bien para que pueda ser visualizado.
             <li>Considere que el nombre del archivo debe ser igual al <strong>No de Inventario</strong> de cada bien previamente registrado.</li>
             <li>El formato debe ser jpg, jpeg o png. Si es distinto, el archivo es posible que no se muestre listado o se pueda previsualizar.</li>
             <li>Es recomendable cargar cada imagen en el cuadro de diálogo correspondiente al insertar un bien individualmente o al editarlo.</li>
