@@ -65,7 +65,7 @@ $agenteUsuario = $_SERVER['HTTP_USER_AGENT'];
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Salud del Sistema - PISC</title>
+    <title>Salud del Sistema - PISC v1.1.4</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -74,9 +74,10 @@ $agenteUsuario = $_SERVER['HTTP_USER_AGENT'];
     </script>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Verificación de Salud de PISC</h2>
-        <p>Verificación de la integridad de los archivos y configuraciones necesarias para el funcionamiento óptimo de esta plataforma.</p>
+    <div class="container mt-4">
+        <h2>Verificación de Salud de PISC v1.1.4</h2>
+        <br>
+        <p>Verificación de la integridad de los archivos y requerimientos necesarios para el funcionamiento óptimo de esta plataforma.</p>
         
         <?php if ($errores): ?>
             <div class="alert alert-danger" role="alert">
