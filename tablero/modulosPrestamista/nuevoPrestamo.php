@@ -34,6 +34,7 @@ if ($fila = $resultado->fetch_assoc()) {
 // Cargar las carreras desde el archivo JSON
 $data = json_decode(file_get_contents("../variablesConfiguracion.json"), true);
 $carreras = $data['carreras'];
+$areaLaboratorio = $data['AreaLaboratorio'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -76,16 +77,17 @@ $carreras = $data['carreras'];
                     <!-- Área, Unidad y Responsable -->
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="area">Área:</label>
-                            <input type="text" class="form-control" id="area" name="area" required>
+                            <label for="area">Área del laboratorio:</label>
+                            <input type="text" class="form-control" id="area" name="area" value="<?php echo htmlspecialchars($areaLaboratorio); ?>" readonly>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label for="unidad">Unidad:</label>
                             <input type="text" class="form-control" id="unidad" name="unidad">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="responsable">Responsable:</label>
+                        <label for="responsable">Responsable del bien:</label>
                         <input type="text" class="form-control" id="responsable" name="responsable">
                     </div>
 

@@ -60,7 +60,7 @@ if ($result->num_rows > 0) {
 <body>
     <div class="container mt-5">
         <h2>Historial de préstamos</h2>
-        
+
         <button class="btn btn-info" onclick="abrirExportarHistorialCSV()">Exportar historial</button>
         <br>
         <table id="prestamosActivos" class="display" style="width:100%">
@@ -90,14 +90,21 @@ if ($result->num_rows > 0) {
                             <td><?= $prestamo['FechaDevolucionReal'] ? htmlspecialchars($prestamo['FechaDevolucionReal']) : 'No se ha devuelto' ?></td>
                             <td><?= htmlspecialchars($prestamo['EstadoPrestamo']) ?></td>
                             <td>
-                                <!-- Botón para ver detalles  -->
-                                <button onclick="abrirDetallesPrestamo('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-info"><i class="fas fa-eye"></i> Consultar Detalles</button>
+                                <!-- Botón para ver detalles -->
+                                <button onclick="abrirDetallesPrestamo('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-info btn-icon-text">
+                                    <i class="fas fa-eye mb-2"></i> <!-- margen inferior para separar del texto -->
+                                    <div>Consultar Detalles</div>
+                                </button>
                                 <!-- Formulario y botón para generar vale -->
                                 <form method="post" style="display: inline;">
                                     <input type="hidden" name="noNuevoVale" value="<?= $prestamo['NumeroVale'] ?>">
-                                    <button onclick="abrirGenerarVale('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-success"><i class="fas fa-file-alt"></i> Recuperar Vale</button>
+                                    <button onclick="abrirGenerarVale('<?= $prestamo['NumeroVale'] ?>')" class="btn btn-success btn-icon-text">
+                                        <i class="fas fa-file-alt mb-2"></i>
+                                        <div>Recuperar Vale</div>
+                                    </button>
                                 </form>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>

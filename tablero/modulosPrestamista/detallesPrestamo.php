@@ -52,7 +52,7 @@ $stmtBienes->close();
         <div><strong>Prestamista que recibió los bienes:</strong> <?= $detalleVale['PersonaRecibe'] ? htmlspecialchars($detalleVale['PersonaRecibe']) : 'No se ha registrado devolución.' ?></div>
         <div><strong>Área:</strong> <?= $detalleVale['Area'] ? htmlspecialchars($detalleVale['Area']) : 'No especificado' ?></div>
         <div><strong>Unidad:</strong> <?= $detalleVale['Unidad'] ? htmlspecialchars($detalleVale['Unidad']) : 'No especificado' ?></div>
-        <div><strong>Responsable:</strong> <?= $detalleVale['Responsable'] ? htmlspecialchars($detalleVale['Responsable']) : 'No especificado' ?></div>
+        <div><strong>Responsable de los bienes:</strong> <?= $detalleVale['Responsable'] ? htmlspecialchars($detalleVale['Responsable']) : 'No especificado' ?></div>
         <div><strong>Fecha de préstamo:</strong> <?= htmlspecialchars($detalleVale['FechaHoraPrestamo']) ?></div>
         <div><strong>Fecha prevista de devolución:</strong> <?= htmlspecialchars($detalleVale['FechaDevolucionPrevista']) ?></div>
         <div><strong>Fecha real de devolución:</strong> <?= htmlspecialchars($detalleVale['FechaDevolucionReal'] ?? 'No devuelto aún') ?></div>

@@ -1,0 +1,74 @@
+[
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-02 19:49:14",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-02 20:27:59",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-02 20:29:34",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-02 21:00:19",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-02 21:44:34",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-03 02:00:49",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-03 02:11:15",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-03 02:14:17",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-03 02:17:24",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    }
+]

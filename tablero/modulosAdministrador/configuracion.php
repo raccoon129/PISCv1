@@ -13,6 +13,7 @@ $data = file_exists($filePath) ? json_decode(file_get_contents($filePath), true)
 $carreras = $data['carreras'] ?? [];
 $nombreLaboratorio = $data['NombreLaboratorio'] ?? '';
 $ubicaciones = $data['ubicaciones'] ?? [];
+$areaLaboratorio = $data['AreaLaboratorio'] ?? '';
 
 // Procesar la eliminación de una procedencia
 if (isset($_POST['eliminar']) && !empty($_POST['eliminarCarrera'])) {
@@ -45,6 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombreLaboratorio'])) 
         $data['NombreLaboratorio'] = $nombreLaboratorio;
         file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
         echo "<script>alert('Nombre del laboratorio actualizado con éxito.'); window.location.href='configuracion.php';</script>";
+        exit;
+    }
+}
+
+// Procesar el nombre de la área del laboratorio
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['areaLaboratorio'])) {
+    $areaLaboratorio = trim($_POST['areaLaboratorio']);
+    if (!empty($areaLaboratorio)) {
+        $data['AreaLaboratorio'] = $areaLaboratorio;
+        file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
+        echo "<script>alert('Área del laboratorio actualizado con éxito.'); window.location.href='configuracion.php';</script>";
         exit;
     }
 }
@@ -122,8 +134,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ser visualizadas en este software.
                 </div>
                 <button type="button" class="btn btn-info" onclick="window.open('configuracionFotosBienes.php', 'Nueva Ventana', 'width=1300,height=600');">
-                        Abrir configuración de imágenes de bienes
-                    </button>
+                    Abrir configuración de imágenes de bienes
+                </button>
             </div>
 
             <div class="col-md-6">
@@ -159,12 +171,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </ul>
 
                 <hr> <!-- Separador para la nueva sección -->
-
-                <h4>Nombre del laboratorio</h4>
+                <h4>Datos del laboratorio</h4>
                 <div class="alert alert-danger" role="alert">
-                    Modifique esta variable bajo autorización previa.
-                    Todos los vales generados por consultar recuperarán el dato.
+                    Modifique estas variables bajo autorización previa.
+                    Todos los vales generados por consultar recuperarán estos datos.
                 </div>
+                <h5>Nombre del laboratorio</h5>
                 <form action="configuracion.php" method="post">
                     <div class="form-group">
                         <label for="nombreLaboratorio">Especifica el nombre del laboratorio que se registrarán en los vales de préstamo:</label>
@@ -172,6 +184,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <button type="submit" class="btn btn-primary mt-2">Actualizar</button>
                     </div>
                 </form>
+
+
+                <h5>Área del laboratorio</h5>
+                <form action="configuracion.php" method="post">
+                    <div class="form-group">
+                        <label for="areaLaboratorio">Especifica la área del laboratorio que se registrarán en los vales de préstamo:</label>
+                        <input type="text" class="form-control" id="areaLaboratorio" name="areaLaboratorio" value="<?php echo htmlspecialchars($areaLaboratorio); ?>" required>
+                        <button type="submit" class="btn btn-primary mt-2">Actualizar</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

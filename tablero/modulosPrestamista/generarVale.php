@@ -8,7 +8,13 @@ function recortarTexto15($texto) {
         return $texto;
     }
 }
-
+function recortarTexto19($texto) {
+    if (strlen($texto) > 19) {
+        return substr($texto, 0, 19) . "...";
+    } else {
+        return $texto;
+    }
+}
 function recortarTexto10($texto) {
     if (strlen($texto) > 10) {
         return substr($texto, 0, 10) . "...";
@@ -107,7 +113,7 @@ while ($bien = $bienes->fetch_assoc()) {
 // Cargar el archivo JSON con la variable
 $data = json_decode(file_get_contents("../variablesConfiguracion.json"), true);
 $nombreLaboratorio = $data['NombreLaboratorio'] ?? 'Nombre del laboratorio no configurado';
-
+$areaLaboratorio = $data['AreaLaboratorio'] ?? 'Area del laboratorio no configurado';
 
 $conexion->close();
 
@@ -145,7 +151,7 @@ $pdf->Text(118, 27, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 $pdf->Text(155, 42, utf8_decode($fechaSolicitud), 'LR', 1, 'L');
 $pdf->Text(155, 50, utf8_decode($fechaDevolucionPrevista), 'LR', 1, 'L');
 $pdf->Text(20, 42, utf8_decode(recortarTexto15($carrera)), 'LR', 1, 'L');
-
+$pdf->Text(55, 42, utf8_decode(recortarTexto65($areaLaboratorio)), 'LR', 1, 'L');
 //Recibi del laboratorio "tal"
 $pdf->Text(49, 57, utf8_decode('' . $nombreLaboratorio . ''), 'LR', 1, 'L');
 
@@ -175,16 +181,16 @@ foreach ($bienesData as $index => $bien) {
 
 //Aca terminan los campos de lo que se presta
 $pdf->Text(40, 99, utf8_decode(recortarTexto65($observaciones)), 'LR', 1, 'L');
-$pdf->Text(17, 133, utf8_decode(recortarTexto15($nombreDeudor)), 'LR', 1, 'L');
-$pdf->Text(57, 133, utf8_decode(recortarTexto15($nombreEntrega)), 'LR', 1, 'L');
+$pdf->Text(17, 133, utf8_decode(recortarTexto19($nombreDeudor)), 'LR', 1, 'L');
+$pdf->Text(57, 133, utf8_decode(recortarTexto19($nombreEntrega)), 'LR', 1, 'L');
 
 //Acá la persona que recibe los bienes. Solo aparece cuando ya se han devuelto.
-$pdf->Text(99, 133, utf8_decode(recortarTexto15($nombreRecibe)), 'LR', 1, 'L');
+$pdf->Text(99, 133, utf8_decode(recortarTexto19($nombreRecibe)), 'LR', 1, 'L');
 // La misma persona que se le prestan los bienes, debe entregarlos.
-$pdf->Text(140, 133, utf8_decode(recortarTexto15($nombreDeudor)), 'LR', 1, 'L');
+$pdf->Text(140, 133, utf8_decode(recortarTexto19($nombreDeudor)), 'LR', 1, 'L');
 
 // Acá los campos adicionales de area, unidad y responsable.
-$pdf->Text(56, 42, utf8_decode(recortarTexto65($area)), 'LR', 1, 'L');
+
 $pdf->Text(35, 107, utf8_decode(recortarTexto65($unidad)), 'LR', 1, 'L');
 $pdf->Text(35, 111, utf8_decode(recortarTexto65($responsable)), 'LR', 1, 'L');
 
