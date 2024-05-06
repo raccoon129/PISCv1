@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ser visualizadas en este software.
                 </div>
                 <button type="button" class="btn btn-info" onclick="window.open('configuracionFotosBienes.php', 'Nueva Ventana', 'width=1300,height=600');">
-                    Abrir configuración de imágenes de bienes
+                    Abrir revisión de imágenes de bienes
                 </button>
             </div>
 

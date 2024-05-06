@@ -99,7 +99,7 @@ $areaLaboratorio = $data['AreaLaboratorio'];
                                 <thead>
                                     <tr>
                                         <th>Descripción</th>
-                                        <th>Bien ID/No. de Inventario</th>
+                                        <th>No. de Inventario</th>
                                         <th>Procedencia</th> <!-- Nueva columna para la procedencia -->
                                         <th>Acción</th>
                                     </tr>

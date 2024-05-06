@@ -1,5 +1,5 @@
 <?php
-include '../../db.php'; 
+include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
 
@@ -30,7 +30,7 @@ $conexion->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo Inicio - Prestamista PISC</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="estiloInicioAdministrador.css">
 </head>
 
@@ -62,7 +62,7 @@ $conexion->close();
                 </div>
             </div>
         </div>
-        
+
 
         <?php include('consultaInicioAdministrador.php'); ?>
 
@@ -71,13 +71,13 @@ $conexion->close();
             <div class="col-sm">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-calendar-day card-icon"></i> <!-- Icono de hoy -->
+                        <i class="fas fa-list-alt"></i> <!-- Icono de lista -->
                         Cantidad de préstamos realizados
                     </div>
                     <div class="card-body">
-                        <p class="card-text">Hoy: <?php echo $resultadoHoy; ?></p>
-                        <p class="card-text">Esta semana: <?php echo $resultadoSemana; ?></p>
-                        <p class="card-text">Este mes: <?php echo $resultadoMes; ?></p>
+                        <p class="card-text"><strong>Hoy:</strong> <?php echo $resultadoHoy; ?></p>
+                        <p class="card-text"><strong>Esta semana:</strong> <?php echo $resultadoSemana; ?></p>
+                        <p class="card-text"><strong>Este mes:</strong> <?php echo $resultadoMes; ?></p>
                     </div>
                 </div>
             </div>
@@ -86,31 +86,35 @@ $conexion->close();
             <div class="col-sm">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-arrow-up-right-from-square card-icon"></i> <!-- Icono de préstamos del día -->
+                        <i class="fas fa-calendar-alt"></i> <!-- Icono de calendario -->
                         Préstamos del día
                     </div>
                     <div class="card-body">
-                        
-                        <table id="tablaPrestamos" class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Bien</th>
-                                    <th>Fecha y Hora del Préstamo</th>
-                                    <th>Deudor</th>
-                                    <th>Rol</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php while ($row = mysqli_fetch_assoc($resultadoRecientes)) : ?>
+
+                        <?php if (mysqli_num_rows($resultadoRecientes) == 0) : ?>
+                            <p>No se encontraron préstamos realizados hoy.</p>
+                        <?php else : ?>
+                            <table id="tablaPrestamos" class="table">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $row['NombreDelBien']; ?></td>
-                                        <td><?php echo $row['FechaHoraPrestamo']; ?></td>
-                                        <td><?php echo $row['Persona']; ?></td>
-                                        <td><?php echo $row['Rol']; ?></td>
+                                        <th>Nombre del Bien</th>
+                                        <th>Fecha y Hora del Préstamo</th>
+                                        <th>Deudor</th>
+                                        <th>Rol</th>
                                     </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = mysqli_fetch_assoc($resultadoRecientes)) : ?>
+                                        <tr>
+                                            <td><?php echo $row['NombreDelBien']; ?></td>
+                                            <td><?php echo $row['FechaHoraPrestamo']; ?></td>
+                                            <td><?php echo $row['Persona']; ?></td>
+                                            <td><?php echo $row['Rol']; ?></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

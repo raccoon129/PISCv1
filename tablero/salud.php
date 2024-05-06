@@ -1,7 +1,6 @@
 <?php
 include '../db.php';
-include('control_acceso.php');
-verificarAcceso(['Administrador']);
+
 
 // Lista de archivos y directorios a verificar. TODOS los archivos deben estar.
 $archivosDirectorios = [

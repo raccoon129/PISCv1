@@ -2,7 +2,7 @@
 include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
-// Esta es una extensión de gestionBienesVolcarDatosBienes.php
+// Esta es una extensión de gestionBienesVolcarDatosBienes.php y da funcionalidad para la consultas requeridas
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['importar']) && !empty($_POST['datos'])) {
     $datos = json_decode($_POST['datos'], true);
     $consultaMaxId = $conexion->query("SELECT MAX(InventarioID) AS maximo FROM inventario");

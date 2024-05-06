@@ -54,12 +54,12 @@ if (isset($_POST['action']) && $_POST['action'] === 'print') {
     $pdf->Ln(20);
 
     // Título
-    $pdf->Cell(190, 10, 'Fotografia del bien: ' . $bien['BienID'], 0, 1, 'C');
+    $pdf->Cell(190, 10, utf8_decode('Fotografía del bien: ' . $bien['BienID']), 0, 1, 'C');
 
     // Detalles del bien
     $pdf->SetFont('Arial', '', 12);
-    $pdf->Cell(190, 10, 'Descripcion: ' . $bien['Descripcion'], 0, 1);
-    $pdf->Cell(190, 10, 'Ubicacion: ' . $bien['Ubicacion'], 0, 1);
+    $pdf->Cell(190, 10, utf8_decode('Descripción: ' . $bien['Descripcion']), 0, 1);
+    $pdf->Cell(190, 10, utf8_decode('Ubicación: ' . $bien['Ubicacion']), 0, 1);
 
     // Imagen del bien
     if ($imagenRuta) {

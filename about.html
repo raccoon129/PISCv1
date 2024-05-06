@@ -51,9 +51,12 @@
 
 <body>
     <div class="container">
-        <img src="img/blancoGrande.png" alt="Imagen" />
+        <img src="img/blancoGrande.png" alt="LogoPISC" 
+        title="Haz clic aquí para ver la salud de la plataforma." 
+        onclick="window.open('tablero/salud.php', '_blank', 'width=1200,height=600')"/>
+
         <h2>PISC - Préstamos ISC versión 1.1.4</h2>
-        <h2>Abril 2024</h2>
+        <h2>Mayo 2024</h2>
         <h6>Esta plataforma web ha sido desarrollada con tecnologías PHP, CSS, JSON, MySQL, JavaScript, JQuery, AJAX,
             Bootstrap 4 & 5, SweetAlert, FPDF, Lightbox y DataTables.</h6>
         <h5>Ingeniería en Sistemas Computacionales - ITESHU</h5>
@@ -61,7 +64,9 @@
         <a href="https://sites.google.com/iteshu.edu.mx/pisc/documentaci%C3%B3n" class="btn btn-primary mt-2">Leer documentación</a>
         <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#registroCambiosModal">Ver
             registro de cambios</button>
+            
         <a href="index.php" class="btn btn-secondary mt-2">Regresar al login</a>
+        
     </div>
     <!-- Ventana modal para registro de cambios -->
     <div class="modal fade" id="registroCambiosModal" tabindex="-1" role="dialog"
