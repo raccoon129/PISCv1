@@ -22,16 +22,15 @@ $result = $conexion->query($sql);
     <title>Gestión de Bienes - Módulo PISC</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- DataTables CSS que se emplearon debido a problemas de responsividad. Ajuste en estiloDataTablesResponsivas.css -->
+    <!-- DataTables CSS que se emplearon debido a problemas de responsividad. Ajuste en estiloDataTablesResponsivas.css-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../estiloDataTablesResponsivas.css">
     <!-- Optional JavaScript -->
     <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-
-    <link rel="stylesheet" href="../estiloDataTablesResponsivas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 

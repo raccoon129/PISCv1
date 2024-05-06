@@ -5,7 +5,6 @@
             max-width: 140px;
             font-size: 14px;
         }
-
         /* para asegurar que la tabla se desborde de manera controlada */
         .tabla-responsiva {
             overflow-x: auto;

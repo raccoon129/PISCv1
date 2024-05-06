@@ -166,5 +166,21 @@
         "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
         "sistemaOperativo": "Windows",
         "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-06 16:23:44",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-06 16:30:37",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
     }
 ]
