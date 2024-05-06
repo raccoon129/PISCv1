@@ -62,6 +62,7 @@ $agenteUsuario = $_SERVER['HTTP_USER_AGENT'];
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Salud del Sistema - PISC v1.1.4</title>
@@ -72,17 +73,22 @@ $agenteUsuario = $_SERVER['HTTP_USER_AGENT'];
         });
     </script>
 </head>
+
 <body>
     <div class="container mt-4">
         <h2>Verificación de Salud de PISC v1.1.4</h2>
         <br>
         <p>Verificación de la integridad de los archivos y requerimientos necesarios para el funcionamiento óptimo de esta plataforma.</p>
-        
-        <?php if ($errores): ?>
+        <?php if (!$errores) : ?>
+            <div class="alert alert-success" role="alert">
+                No se han encontrado problemas.
+            </div>
+        <?php endif; ?>
+        <?php if ($errores) : ?>
             <div class="alert alert-danger" role="alert">
                 <strong>Violación de Integridad:</strong> Los siguientes archivos o directorios están ausentes o corruptos:
                 <ul>
-                    <?php foreach ($errores as $error): ?>
+                    <?php foreach ($errores as $error) : ?>
                         <li><?= $error ?></li>
                     <?php endforeach; ?>
                 </ul>
@@ -129,4 +135,5 @@ $agenteUsuario = $_SERVER['HTTP_USER_AGENT'];
         </table>
     </div>
 </body>
+
 </html>
