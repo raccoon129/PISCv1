@@ -2,6 +2,7 @@
 include '../../db.php';
 include('../control_acceso.php');
 verificarAcceso(['Administrador']);
+
 // Variables para los filtros
 $ubicacionSeleccionada = isset($_POST['ubicacion']) ? $_POST['ubicacion'] : '';
 $formato = isset($_POST['formato']) ? $_POST['formato'] : '';
@@ -10,16 +11,20 @@ $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 $sql = "SELECT i.InventarioID, i.BienID, i.Descripcion, i.Marca, i.No_Serie, i.Modelo, i.Ubicacion, i.Estado, db.Estado AS EstadoBien 
 FROM inventario i 
 JOIN detalles_bien db ON i.BienID = db.ID 
-WHERE db.Estado <> 'Baja'"; // Excluye los bienes dados de baja
+WHERE db.Estado <> 'Baja'";
 
-// filtro de ubicación a la consulta si es necesario
+// Aplica filtro de ubicación a la consulta si es necesario
 if (!empty($ubicacionSeleccionada)) {
-    $sql .= " WHERE i.Ubicacion = '" . $ubicacionSeleccionada . "'";
+    $sql .= " AND i.Ubicacion = '" . $conexion->real_escape_string($ubicacionSeleccionada) . "'";
 }
 
 $sql .= " ORDER BY i.InventarioID DESC";
 
 $resultados = $conexion->query($sql);
+
+if ($resultados === false) {
+    die("Error en la consulta: " . $conexion->error);
+}
 
 // Si se solicita exportar, gestionar la exportación antes de cualquier salida HTML
 if ($accion === 'exportar' && $resultados->num_rows > 0) {
