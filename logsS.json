@@ -198,5 +198,53 @@
         "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
         "sistemaOperativo": "Windows",
         "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-07 06:12:54",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-07 17:09:58",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-07 17:10:13",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-07 17:10:22",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "prp",
+        "fechaHora": "2024-05-07 17:10:28",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-07 17:11:31",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
     }
 ]

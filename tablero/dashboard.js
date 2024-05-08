@@ -1,6 +1,6 @@
 
 //ESTE SCRIPT ES CRITICO PARA EL FUNCIONAMIENTO DEL DASHBOARD Y LA PLATAFORMA EN GENERAL.
-//DOCUMENTADOD DE FORMA VERBAL
+//DOCUMENTADOD DE FORMA VERBAL - Desarrollado por Emanuel Muñoz Santana (como toda esta plataforma) 21021475
 
 // Se ejecuta cuando el contenido del DOM está completamente cargado.
 document.addEventListener('DOMContentLoaded', function () {
