@@ -52,7 +52,7 @@ verificarAcceso(['Administrador']);
     </div>
 
     <div class="pie-pagina">
-    Dashboard para Administradores v1.0 | PISC - Préstamos ISC v1.1.4 (Estable)
+    Dashboard para Administradores v1.0 | PISC - Préstamos ISC v1.1.4 (Estable) © AutomataSoft
     </div>
 
     <script src="dashboard.js"></script>

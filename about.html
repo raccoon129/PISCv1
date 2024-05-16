@@ -46,6 +46,10 @@
             color: #333;
             margin-top: 20px;
         }
+
+        .alert-danger {
+            color: red;
+        }
     </style>
 </head>
 
@@ -53,20 +57,20 @@
     <div class="container">
         <img src="img/blancoGrande.png" alt="LogoPISC" 
         title="Haz clic aquí para ver la salud de la plataforma." 
-        onclick="window.open('tablero/salud.php', '_blank', 'width=1200,height=600')"/>
+        onclick="window.open('tablero/salud.php', '_blank', 'width=1200,height=730')"/>
 
         <h2>PISC - Préstamos ISC versión 1.1.4</h2>
         <h2>Mayo 2024</h2>
         <h6>Esta plataforma web ha sido desarrollada con tecnologías PHP, CSS, JSON, MySQL, JavaScript, JQuery, AJAX,
             Bootstrap 4 & 5, SweetAlert, FPDF, Lightbox y DataTables.</h6>
-        <h5>Ingeniería en Sistemas Computacionales - ITESHU</h5>
+
+        <h5 id="licencia-info"></h5>
         <input type="hidden" value="Proyecto desarrollado por: Emanuel Muñoz Santana 21021475">
         <a href="https://sites.google.com/iteshu.edu.mx/pisc/documentaci%C3%B3n" class="btn btn-primary mt-2">Leer documentación</a>
         <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#registroCambiosModal">Ver
             registro de cambios</button>
-            
         <a href="index.php" class="btn btn-secondary mt-2">Regresar al login</a>
-        
+        <a href="terminos.html" class="btn btn-light mt-2 w-100">Términos y condiciones</a>
     </div>
     <!-- Ventana modal para registro de cambios -->
     <div class="modal fade" id="registroCambiosModal" tabindex="-1" role="dialog"
@@ -136,7 +140,41 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.container').classList.add('show');
+            cargarLicencia();
         });
+
+        function cargarLicencia() {
+            fetch('https://raw.githubusercontent.com/raccoon129/licencias/main/licenciaPISC_ISC-ITESHU.json')
+                .then(response => response.text())
+                .then(text => {
+                    try {
+                        const data = JSON.parse(text);
+                        const licenciaInfo = document.getElementById('licencia-info');
+                        const licencia = data.licencia;
+
+                        if (licencia === "true") {
+                            licenciaInfo.textContent = data.institucion ? 
+                                `Licencia válida para: ${data.institucion}` : 
+                                "Licencia activa sin detalles de su ubicación.";
+                                
+                        } else if (licencia === "false") {
+                            licenciaInfo.textContent = "Software sin licencia";
+                            licenciaInfo.classList.add('alert-danger');
+                        }
+                    } catch (error) {
+                        console.error('Error al parsear la licencia:', error);
+                        const licenciaInfo = document.getElementById('licencia-info');
+                        licenciaInfo.textContent = "Error al cargar la información de la licencia.";
+                        licenciaInfo.classList.add('alert-danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar el JSON de licencia:', error);
+                    const licenciaInfo = document.getElementById('licencia-info');
+                    licenciaInfo.textContent = "Error al cargar la información de su licencia.";
+                    licenciaInfo.classList.add('alert-danger');
+                });
+        }
     </script>
 </body>
 

@@ -246,5 +246,77 @@
         "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
         "sistemaOperativo": "Windows",
         "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 20:15:18",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 20:15:59",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 20:16:11",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 22:56:30",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 22:57:01",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-15 23:32:16",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-16 05:21:38",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-16 05:22:06",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
+    },
+    {
+        "usuario": "sas",
+        "fechaHora": "2024-05-16 16:56:31",
+        "ip": "::1",
+        "agenteUsuario": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/124.0.0.0 Safari\/537.36 Edg\/124.0.0.0",
+        "sistemaOperativo": "Windows",
+        "navegador": "Chrome"
     }
 ]

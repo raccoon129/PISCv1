@@ -22,6 +22,17 @@ $resultado = $consulta->get_result();
 if ($resultado) {
     $fila = $resultado->fetch_assoc();
     if ($fila && password_verify($contrasena, $fila['password'])) {
+        // Verificación de licencia
+        $urlLicencia = 'https://raw.githubusercontent.com/raccoon129/licencias/main/licenciaPISC_ISC-ITESHU.json'; 
+        $response = file_get_contents($urlLicencia);
+        $licencia = json_decode($response, true);
+
+        if ($licencia['licencia'] == 'false') {
+            session_destroy();
+            echo "<script>alert('{$licencia['mensaje']}'); window.location.href='index.php';</script>";
+            exit;
+        }
+
         // Usuario autenticado correctamente
         $_SESSION['username'] = $usuario;
         $_SESSION['rol'] = $fila['rol'];
